@@ -1,6 +1,9 @@
 "use client";
-import Image from "next/image";
 
 export default function Home() {
-	return <>CValley</>;
+	return (
+		<>
+			<h1>Welcome to CValley</h1>
+		</>
+	);
 }
