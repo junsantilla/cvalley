@@ -1,7 +1,6 @@
 "use client";
-
 import * as React from "react";
-
+import { UserAuth } from "../context/AuthContext";
 import { cn } from "@/lib/utils";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
@@ -10,8 +9,25 @@ import { BiLogoGoogle } from "react-icons/bi";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
+export function UserAuthForm() {
+	const { user, googleSignIn, logOut } = UserAuth();
 	const [isLoading, setIsLoading] = React.useState<boolean>(false);
+
+	const handleSignIn = async () => {
+		try {
+			await googleSignIn();
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	const handleSignOut = async () => {
+		try {
+			await logOut();
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
 	async function onSubmit(event: React.SyntheticEvent) {
 		event.preventDefault();
@@ -23,7 +39,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 	}
 
 	return (
-		<div className={cn("grid gap-6", className)} {...props}>
+		<div className="grid gap-6">
 			<form onSubmit={onSubmit}>
 				<div className="grid gap-2">
 					<div className="grid gap-1">
@@ -55,7 +71,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 					</span>
 				</div>
 			</div>
-			<Button variant="outline" type="button">
+			<Button variant="outline" type="button" onClick={handleSignIn}>
 				<BiLogoGoogle className="mr-1 text-lg" /> Google
 			</Button>
 		</div>

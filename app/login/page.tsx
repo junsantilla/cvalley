@@ -1,9 +1,28 @@
 "use client";
 import Link from "next/link";
 import { UserAuthForm } from "@/components/UserAuthFormProps";
-import { BiFile } from "react-icons/bi";
+import { UserAuth } from "@/context/AuthContext";
+import { useEffect, useState } from "react";
+import { redirect } from "next/navigation";
 
 export default function Login() {
+	const { user } = UserAuth();
+	const [isLoading, setIsLoading] = useState(true);
+
+	useEffect(() => {
+		if (user) {
+			setIsLoading(false);
+			redirect("/dashboard");
+		} else {
+			setIsLoading(false);
+		}
+	}, [user]);
+
+	// Render loading state while isLoading is true
+	if (isLoading) {
+		return <div>Loading...</div>;
+	}
+
 	return (
 		<>
 			<div className="md:hidden"></div>
@@ -39,7 +58,8 @@ export default function Login() {
 						</div>
 						<UserAuthForm />
 						<p className="px-8 text-center text-sm text-muted-foreground">
-							By clicking continue, you agree to our{" "}
+							By signing in, you agree to our
+							<br />
 							<Link
 								href="/terms"
 								className="underline underline-offset-4 hover:text-primary"
