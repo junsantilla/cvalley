@@ -60,13 +60,9 @@ function ChooseTemplate() {
 			: cardData.filter((card) => card.category === selectedCategory);
 
 	return (
-		<section className="py-24 flex flex-col">
-			<div className="flex justify-center mb-6">
-				<div className="w-full max-w-screen-xl flex justify-between">
-					<h2 className="font-bold text-2xl">
-						<BiFileFind className="mr-1 text-2xl inline mb-2" />
-						Choose Template
-					</h2>
+		<section className="flex flex-col">
+			<div className=" mb-6">
+				<div className="w-full max-w-screen-xl flex justify-end">
 					<div className="flex gap-1">
 						<Button
 							variant={

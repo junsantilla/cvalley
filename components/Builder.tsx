@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import {
 	BiDownload,
 	BiEdit,
+	BiFileFind,
 	BiMinus,
 	BiPlus,
 	BiPrinter,
@@ -26,6 +27,7 @@ import {
 import ReactToPrint from "react-to-print";
 import { Professional } from "@/templates/Professional";
 import { useRouter } from "next/router";
+import ChooseTemplate from "./ChooseTemplate";
 
 // Form schema
 const formSchema = z.object({
@@ -678,6 +680,10 @@ function Builder() {
 				<div className="w-full max-w-screen-lg flex justify-between">
 					<Tabs defaultValue="account" className="w-full p-0">
 						<TabsList className="mb-6 border">
+							<TabsTrigger value="template">
+								<BiFileFind className="inline-block mr-2" />{" "}
+								Choose Template
+							</TabsTrigger>
 							<TabsTrigger value="account">
 								<BiUser className="inline-block mr-2" /> Enter
 								Information
@@ -690,6 +696,10 @@ function Builder() {
 								Download
 							</TabsTrigger>
 						</TabsList>
+
+						<TabsContent value="template">
+							<ChooseTemplate />
+						</TabsContent>
 
 						<TabsContent value="account">
 							<ResumeForm />

@@ -72,7 +72,7 @@ function page() {
 					</Button>
 				</div>
 			</section>
-			<ChooseTemplate />
+
 			<div className="hidden flex-col md:flex">
 				<div className="border-t bg-slate-50">
 					<div className="flex h-16 items-center px-4 mx-4">
