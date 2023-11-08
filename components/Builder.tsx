@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
 	BiDownload,
 	BiEdit,
 	BiMinus,
 	BiPlus,
+	BiPrinter,
 	BiSave,
 	BiUser,
 } from "react-icons/bi";
@@ -22,6 +23,9 @@ import {
 	CardHeader,
 	CardTitle,
 } from "./ui/card";
+import ReactToPrint from "react-to-print";
+import { Professional } from "@/templates/Professional";
+import { useRouter } from "next/router";
 
 // Form schema
 const formSchema = z.object({
@@ -642,6 +646,18 @@ export function ResumeForm() {
 }
 
 function Builder() {
+	const componentRef = useRef(null);
+	const [templateId, setTemplateId] = useState(null);
+
+	useEffect(() => {
+		const searchParams = new URLSearchParams(window.location.search);
+		const queryTemplateId = searchParams.get("templateId");
+
+		if (queryTemplateId) {
+			setTemplateId(queryTemplateId as any);
+		}
+	}, []);
+
 	return (
 		<section className="py-10 flex flex-col">
 			<div className="flex justify-center mb-6">
@@ -679,8 +695,21 @@ function Builder() {
 							<ResumeForm />
 						</TabsContent>
 
-						<TabsContent value="password">
-							Change your password here.
+						<TabsContent value="review">
+							{templateId === "professional" && (
+								<Professional ref={componentRef} />
+							)}
+							<ReactToPrint
+								trigger={() => {
+									return (
+										<Button type="button">
+											<BiPrinter className="mr-1" />
+											Print
+										</Button>
+									);
+								}}
+								content={() => componentRef.current}
+							/>
 						</TabsContent>
 					</Tabs>
 				</div>
