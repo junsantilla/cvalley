@@ -7,12 +7,12 @@ import { UserNav } from "@/components/UserNav";
 
 import DotLoader from "react-spinners/DotLoader";
 import { Button } from "@/components/ui/button";
-import { BiFileFind, BiRightArrow } from "react-icons/bi";
-import ChooseTemplate from "@/components/ChooseTemplate";
+import { BiFileFind, BiFoodMenu } from "react-icons/bi";
+import Builder from "@/components/Builder";
 
 function page() {
 	const { user } = UserAuth();
-	const [isLoading, setIsLoading] = useState(true);
+	const [isLoading, setIsLoading] = useState(false);
 
 	localStorage.setItem("redirectTo", window.location.pathname);
 
@@ -41,7 +41,7 @@ function page() {
 	}
 
 	return (
-		<>
+		<div>
 			<div className="hidden flex-col md:flex">
 				<div className="border-b bg-slate-50">
 					<div className="flex h-16 items-center px-4 mx-4">
@@ -52,27 +52,9 @@ function page() {
 					</div>
 				</div>
 			</div>
-			<section className="w-full bg-slate-100 text-center py-24 ">
-				<p className="text-5xl mb-6">
-					Welcome to <span className="font-bold">CValley.io</span>
-				</p>
-				<div className="text-xl font-normal">
-					<p>Get started with creating your free resume today.</p>
-					<p>
-						Click the "Start" button or choose a template below to
-						begin.
-					</p>
-				</div>
-				<div className="flex gap-3 mt-6 justify-center">
-					<Button type="button">
-						<BiRightArrow className="mr-1 text-lg" /> Start
-					</Button>
-					<Button variant="outline" type="button">
-						<BiFileFind className="mr-1 text-lg" /> Choose Template
-					</Button>
-				</div>
-			</section>
-			<ChooseTemplate />
+
+			<Builder />
+
 			<div className="hidden flex-col md:flex">
 				<div className="border-t bg-slate-50">
 					<div className="flex h-16 items-center px-4 mx-4">
@@ -83,7 +65,7 @@ function page() {
 					</div>
 				</div>
 			</div>
-		</>
+		</div>
 	);
 }
 

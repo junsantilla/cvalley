@@ -15,6 +15,12 @@ export function MainNav() {
 			>
 				Dashboard
 			</Link>
+			<Link
+				href="/cv-builder"
+				className="text-sm font-medium transition-colors hover:text-primary"
+			>
+				CV Builder
+			</Link>
 		</nav>
 	);
 }

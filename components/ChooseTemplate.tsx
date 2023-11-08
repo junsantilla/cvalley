@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Link from "next/link";
 import { Button } from "./ui/button";
 import {
 	Card,
@@ -22,6 +23,7 @@ function ChooseTemplate() {
 	// Sample card data
 	const cardData = [
 		{
+			id: "entry-level",
 			title: "Entry-Level",
 			description:
 				"A simple template suitable for entry-level job seekers.",
@@ -30,6 +32,7 @@ function ChooseTemplate() {
 			category: "Simple",
 		},
 		{
+			id: "professional",
 			title: "Professional",
 			description: "A polished and modern template for professionals.",
 			imageURL:
@@ -37,67 +40,13 @@ function ChooseTemplate() {
 			category: "Professional",
 		},
 		{
+			id: "creative",
 			title: "Creative",
 			description:
 				"An eye-catching and creative template to showcase your skills.",
 			imageURL:
 				"https://gdoc.io/uploads/University-Student-Resume-Template-web1.jpg",
 			category: "Modern",
-		},
-		{
-			title: "Student",
-			description:
-				"A concise template designed for students and recent graduates.",
-			imageURL:
-				"https://gdoc.io/uploads/University-Student-Resume-Template-web1.jpg",
-			category: "Simple",
-		},
-		{
-			title: "Executive",
-			description:
-				"A sophisticated template tailored for executives and senior professionals.",
-			imageURL:
-				"https://gdoc.io/uploads/University-Student-Resume-Template-web1.jpg",
-			category: "Professional",
-		},
-		{
-			title: "Creative Director",
-			description:
-				"An artistic and unique template for creative directors.",
-			imageURL:
-				"https://gdoc.io/uploads/University-Student-Resume-Template-web1.jpg",
-			category: "Modern",
-		},
-		{
-			title: "Internship",
-			description:
-				"A concise template designed for internship applications.",
-			imageURL:
-				"https://gdoc.io/uploads/University-Student-Resume-Template-web1.jpg",
-			category: "Simple",
-		},
-		{
-			title: "Managerial",
-			description: "A comprehensive template for managerial positions.",
-			imageURL:
-				"https://gdoc.io/uploads/University-Student-Resume-Template-web1.jpg",
-			category: "Professional",
-		},
-		{
-			title: "Designer",
-			description:
-				"A visually appealing template for designers and creatives.",
-			imageURL:
-				"https://gdoc.io/uploads/University-Student-Resume-Template-web1.jpg",
-			category: "Modern",
-		},
-		{
-			title: "Executive Assistant",
-			description:
-				"A professional template tailored for executive assistant roles.",
-			imageURL:
-				"https://gdoc.io/uploads/University-Student-Resume-Template-web1.jpg",
-			category: "Professional",
 		},
 	];
 
@@ -189,10 +138,15 @@ function ChooseTemplate() {
 									</CardHeader>
 									<div className="flex-grow"></div>
 									<CardFooter>
-										<Button className="w-full">
-											<BiRightArrow className="mr-1 text-md" />{" "}
-											Select
-										</Button>
+										<Link
+											href={`/cv-builder?templateId=${card.id}`}
+											className="w-full"
+										>
+											<Button className="w-full">
+												<BiRightArrow className="mr-1 text-md" />{" "}
+												Select
+											</Button>
+										</Link>
 									</CardFooter>
 								</div>
 							</Card>

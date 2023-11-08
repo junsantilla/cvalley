@@ -12,7 +12,13 @@ export default function Login() {
 	useEffect(() => {
 		if (user) {
 			setIsLoading(false);
-			redirect("/dashboard");
+			const redirectTo = localStorage.getItem("redirectTo");
+			if (redirectTo) {
+				localStorage.removeItem("redirectTo"); // Clear the value
+				redirect(redirectTo);
+			} else {
+				redirect("/dashboard"); // Redirect to the dashboard by default
+			}
 		} else {
 			setIsLoading(false);
 		}
