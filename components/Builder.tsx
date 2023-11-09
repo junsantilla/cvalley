@@ -661,10 +661,10 @@ function Builder() {
 	}, []);
 
 	return (
-		<section className="py-10 flex flex-col">
-			<div className="flex justify-center mb-6">
+		<section className="pb-10 flex flex-col">
+			<div className="flex justify-center bg-slate-200 py-6">
 				<div className="w-full max-w-screen-lg flex justify-between">
-					<h2 className="font-bold text-2xl">
+					<h2 className="font-bold text-2xl flex items-center">
 						Template Name
 						{/* <BiEdit className="ml-1 text-2xl inline mb-1" /> */}
 					</h2>
@@ -677,50 +677,59 @@ function Builder() {
 				</div>
 			</div>
 			<div className="flex justify-center mb-6">
-				<div className="w-full max-w-screen-lg flex justify-between">
-					<Tabs defaultValue="account" className="w-full p-0">
-						<TabsList className="mb-6 border">
-							<TabsTrigger value="template">
-								<BiFileFind className="inline-block mr-2" />{" "}
-								Choose Template
-							</TabsTrigger>
-							<TabsTrigger value="account">
-								<BiUser className="inline-block mr-2" /> Enter
-								Information
-							</TabsTrigger>
-							<TabsTrigger value="review">
-								<BiEdit className="inline-block mr-2" /> Review
-							</TabsTrigger>
-							<TabsTrigger value="download">
-								<BiDownload className="inline-block mr-2" />{" "}
-								Download
-							</TabsTrigger>
-						</TabsList>
+				<div className="w-full">
+					<Tabs defaultValue="template" className="p-0">
+						<div className="bg-slate-300 w-full flex justify-center mb-6 border-y border-slate-300">
+							<div className="bg-slate-300 w-full max-w-screen-lg">
+								<TabsList className="bg-slate-300 p-0">
+									<TabsTrigger value="template">
+										<BiFileFind className="inline-block mr-2" />{" "}
+										1. Choose Template
+									</TabsTrigger>
+									<TabsTrigger value="account">
+										<BiUser className="inline-block mr-2" />{" "}
+										2. Enter Information
+									</TabsTrigger>
+									<TabsTrigger value="review">
+										<BiEdit className="inline-block mr-2" />{" "}
+										3. Review
+									</TabsTrigger>
+									<TabsTrigger value="download">
+										<BiDownload className="inline-block mr-2" />{" "}
+										4. Download
+									</TabsTrigger>
+								</TabsList>
+							</div>
+						</div>
 
-						<TabsContent value="template">
-							<ChooseTemplate />
-						</TabsContent>
+						<div className="flex justify-center">
+							<div className="w-full max-w-screen-lg">
+								<TabsContent value="template">
+									<ChooseTemplate />
+								</TabsContent>
 
-						<TabsContent value="account">
-							<ResumeForm />
-						</TabsContent>
+								<TabsContent value="account">
+									<ResumeForm />
+								</TabsContent>
 
-						<TabsContent value="review">
-							{templateId === "professional" && (
-								<Professional ref={componentRef} />
-							)}
-							<ReactToPrint
-								trigger={() => {
-									return (
-										<Button type="button">
-											<BiPrinter className="mr-1" />
-											Print
-										</Button>
-									);
-								}}
-								content={() => componentRef.current}
-							/>
-						</TabsContent>
+								<TabsContent value="review">
+									{templateId === "professional" && (
+										<Professional ref={componentRef} />
+									)}
+									<ReactToPrint
+										trigger={() => {
+											return (
+												<Button type="button">
+													<BiPrinter className="mr-1" />
+													Print
+												</Button>
+											);
+										}}
+										content={() => componentRef.current}
+									/>
+								</TabsContent>
+							</div>
+						</div>
 					</Tabs>
 				</div>
 			</div>
