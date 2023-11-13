@@ -26,8 +26,9 @@ import {
 } from "./ui/card";
 import ReactToPrint from "react-to-print";
 import { Professional } from "@/templates/Professional";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import ChooseTemplate from "./ChooseTemplate";
+import { useSearchParams } from "next/navigation";
 
 // Form schema
 const formSchema = z.object({
@@ -649,16 +650,23 @@ export function ResumeForm() {
 
 function Builder() {
 	const componentRef = useRef(null);
-	const [templateId, setTemplateId] = useState(null);
+	// const [templateId, setTemplateId] = useState(null);
 
-	useEffect(() => {
-		const searchParams = new URLSearchParams(window.location.search);
-		const queryTemplateId = searchParams.get("templateId");
+	// useEffect(() => {
+	// 	const searchParams = new URLSearchParams(window.location.search);
+	// 	const queryTemplateId = searchParams.get("templateId");
 
-		if (queryTemplateId) {
-			setTemplateId(queryTemplateId as any);
-		}
-	}, []);
+	// 	if (queryTemplateId) {
+	// 		setTemplateId(queryTemplateId as any);
+	// 	}
+	// }, []);
+
+	const searchParams = useSearchParams();
+	const templateId = searchParams.get("templateId");
+
+	const router = useRouter();
+
+	console.log(templateId);
 
 	return (
 		<section className="pb-10 flex flex-col">
@@ -678,11 +686,20 @@ function Builder() {
 			</div>
 			<div className="flex justify-center mb-6">
 				<div className="w-full">
-					<Tabs defaultValue="template" className="p-0">
+					<Tabs
+						value={templateId == null ? "template" : "account"}
+						className="p-0"
+					>
 						<div className="bg-slate-300 w-full flex justify-center mb-6 border-y border-slate-300">
 							<div className="bg-slate-300 w-full max-w-screen-lg">
 								<TabsList className="bg-slate-300 p-0">
-									<TabsTrigger value="template">
+									<TabsTrigger
+										value="template"
+										onClick={() => {
+											// Clear all query parameters when "Choose Template" tab is clicked
+											router.push("/cv-builder");
+										}}
+									>
 										<BiFileFind className="inline-block mr-2" />{" "}
 										1. Choose Template
 									</TabsTrigger>

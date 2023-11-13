@@ -135,7 +135,7 @@ function ChooseTemplate() {
 									<div className="flex-grow"></div>
 									<CardFooter>
 										<Link
-											href={`/cv-builder?templateId=${card.id}`}
+											href={`/cv-builder?tab=account&templateId=${card.id}`}
 											className="w-full"
 										>
 											<Button className="w-full">
