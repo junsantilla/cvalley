@@ -25,10 +25,10 @@ import {
 	CardTitle,
 } from "./ui/card";
 import ReactToPrint from "react-to-print";
-import { Professional } from "@/templates/Professional";
 import { useRouter } from "next/navigation";
 import ChooseTemplate from "./ChooseTemplate";
 import { useSearchParams } from "next/navigation";
+import Professional from "@/templates/Professional";
 
 // Form schema
 const formSchema = z.object({
@@ -73,7 +73,16 @@ const formSchema = z.object({
 	),
 });
 
-export function ResumeForm() {
+function Builder() {
+	const componentRef = useRef(null);
+
+	const searchParams = useSearchParams();
+	const templateId = searchParams.get("templateId");
+
+	const router = useRouter();
+
+	const [data, setData] = useState({});
+
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
@@ -143,533 +152,11 @@ export function ResumeForm() {
 
 	function onSubmit(values: z.infer<typeof formSchema>) {
 		console.log(values);
+		setData(values);
 	}
 
 	return (
-		<Form {...form}>
-			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-				{/* Personal Information */}
-				<Card className=" bg-slate-100 ">
-					<CardHeader>
-						<CardTitle className="text-lg font-bold">
-							<BiUser className="text-xl mb-1 mr-2 inline" />
-							Personal Information
-						</CardTitle>
-						<CardDescription>
-							Fill in all required details below
-						</CardDescription>
-					</CardHeader>
-					<CardContent className="grid gap-4">
-						<FormField
-							control={form.control}
-							name="fullName"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Full Name</FormLabel>
-									<FormControl>
-										<Input
-											placeholder="John Doe"
-											{...field}
-										/>
-									</FormControl>
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={form.control}
-							name="phoneNumber"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Phone Number</FormLabel>
-									<FormControl>
-										<Input
-											placeholder="123-456-7890"
-											{...field}
-										/>
-									</FormControl>
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={form.control}
-							name="emailAddress"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Email Address</FormLabel>
-									<FormControl>
-										<Input
-											placeholder="you@example.com"
-											{...field}
-										/>
-									</FormControl>
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={form.control}
-							name="address"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Mailing Address</FormLabel>
-									<FormControl>
-										<Input
-											placeholder="123 Main St, City, Country"
-											{...field}
-										/>
-									</FormControl>
-								</FormItem>
-							)}
-						/>
-						<FormField
-							control={form.control}
-							name="objective"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Objective</FormLabel>
-									<FormControl>
-										<Textarea
-											placeholder="A brief summary of your career goals..."
-											{...field}
-										/>
-									</FormControl>
-								</FormItem>
-							)}
-						/>
-					</CardContent>
-				</Card>
-
-				{/* Employment History */}
-				<Card className="bg-slate-100">
-					<CardHeader>
-						<CardTitle className="text-lg font-bold">
-							<BiEdit className="text-xl mb-1 mr-2 inline" />
-							Employment History
-						</CardTitle>
-						<CardDescription>
-							Fill in all required details below
-						</CardDescription>
-					</CardHeader>
-					<CardContent className="grid gap-4">
-						{employmentFields.map((employment, index) => (
-							<div key={employment.id}>
-								<div className="grow mb-4">
-									<FormField
-										name={`employment[${index}].jobTitle`}
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>Job Title</FormLabel>
-												<FormControl>
-													<Input
-														placeholder="Job Title"
-														{...field}
-													/>
-												</FormControl>
-											</FormItem>
-										)}
-									/>
-								</div>
-								<div className="flex gap-3 mb-4">
-									<div className="grow">
-										<FormField
-											name={`employment[${index}].companyName`}
-											render={({ field }) => (
-												<FormItem>
-													<FormLabel>
-														Company Name
-													</FormLabel>
-													<FormControl>
-														<Input
-															placeholder="Company Name"
-															{...field}
-														/>
-													</FormControl>
-												</FormItem>
-											)}
-										/>
-									</div>
-									<div className="grow">
-										<FormField
-											name={`employment[${index}].city`}
-											render={({ field }) => (
-												<FormItem>
-													<FormLabel>City</FormLabel>
-													<FormControl>
-														<Input
-															placeholder="City"
-															{...field}
-														/>
-													</FormControl>
-												</FormItem>
-											)}
-										/>
-									</div>
-								</div>
-								<div className="flex gap-3 grow mb-4">
-									<div className="grow">
-										<FormField
-											name={`employment[${index}].startYear`}
-											render={({ field }) => (
-												<FormItem>
-													<FormLabel>
-														Start Year
-													</FormLabel>
-													<FormControl>
-														<Input
-															placeholder="Start Year"
-															{...field}
-														/>
-													</FormControl>
-												</FormItem>
-											)}
-										/>
-									</div>
-									<div className="grow">
-										<FormField
-											name={`employment[${index}].endYear`}
-											render={({ field }) => (
-												<FormItem>
-													<FormLabel>
-														End Year
-													</FormLabel>
-													<FormControl>
-														<Input
-															placeholder="End Year"
-															{...field}
-														/>
-													</FormControl>
-												</FormItem>
-											)}
-										/>
-									</div>
-								</div>
-								<div className="grow mb-4">
-									<FormField
-										name={`employment[${index}].description`}
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>
-													Description
-												</FormLabel>
-												<FormControl>
-													<Textarea
-														placeholder="Description"
-														{...field}
-													/>
-												</FormControl>
-											</FormItem>
-										)}
-									/>
-								</div>
-								<Button
-									type="button"
-									variant="destructive"
-									className="w-full"
-									onClick={() => {
-										removeEmployment(index);
-									}}
-								>
-									<BiMinus className="mr-1" /> Remove
-									Employment
-								</Button>
-							</div>
-						))}
-						<Button
-							type="button"
-							onClick={() =>
-								appendEmployment({
-									jobTitle: "",
-									companyName: "",
-									city: "",
-									startYear: "",
-									endYear: "",
-									description: "",
-								})
-							}
-						>
-							<BiPlus className="mr-1" /> Add Employment
-						</Button>
-					</CardContent>
-				</Card>
-
-				{/* Education */}
-				<Card className=" bg-slate-100 ">
-					<CardHeader>
-						<CardTitle className="text-lg font-bold">
-							<BiEdit className="text-xl mb-1 mr-2 inline" />
-							Educations
-						</CardTitle>
-						<CardDescription>
-							Fill in all required details below
-						</CardDescription>
-					</CardHeader>
-					<CardContent className="grid gap-4">
-						{educationFields.map((education, index) => (
-							<div key={education.id}>
-								<div className="grow mb-4">
-									<FormField
-										name={`education[${index}].schoolName`}
-										key={education.id}
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>
-													School Name
-												</FormLabel>
-												<FormControl>
-													<Input
-														placeholder="School Name"
-														{...field}
-													/>
-												</FormControl>
-											</FormItem>
-										)}
-									/>
-								</div>
-								<div className="flex gap-3 mb-4">
-									<div className="grow">
-										<FormField
-											name={`education[${index}].degree`}
-											render={({ field }) => (
-												<FormItem>
-													<FormLabel>
-														Degree
-													</FormLabel>
-													<FormControl>
-														<Input
-															placeholder="Degree"
-															{...field}
-														/>
-													</FormControl>
-												</FormItem>
-											)}
-										/>
-									</div>
-									<div className="grow">
-										<FormField
-											name={`education[${index}].fieldOfStudy`}
-											render={({ field }) => (
-												<FormItem>
-													<FormLabel>
-														Field of Study
-													</FormLabel>
-													<FormControl>
-														<Input
-															placeholder="Field of Study"
-															{...field}
-														/>
-													</FormControl>
-												</FormItem>
-											)}
-										/>
-									</div>
-								</div>
-
-								<div className="flex gap-3 grow mb-4">
-									<div className="grow">
-										<FormField
-											name={`education[${index}].startYear`}
-											render={({ field }) => (
-												<FormItem>
-													<FormLabel>
-														Start Year
-													</FormLabel>
-													<FormControl>
-														<Input
-															placeholder="Start Year"
-															{...field}
-														/>
-													</FormControl>
-												</FormItem>
-											)}
-										/>
-									</div>
-									<div className="grow">
-										<FormField
-											name={`education[${index}].endYear`}
-											render={({ field }) => (
-												<FormItem>
-													<FormLabel>
-														End Year
-													</FormLabel>
-													<FormControl>
-														<Input
-															placeholder="End Year"
-															{...field}
-														/>
-													</FormControl>
-												</FormItem>
-											)}
-										/>
-									</div>
-								</div>
-
-								<div className="grow  mb-4">
-									<FormField
-										name={`education[${index}].description`}
-										render={({ field }) => (
-											<FormItem>
-												<FormLabel>
-													Description
-												</FormLabel>
-												<FormControl>
-													<Textarea
-														placeholder="Description"
-														{...field}
-													/>
-												</FormControl>
-											</FormItem>
-										)}
-									/>
-								</div>
-								<Button
-									type="button"
-									variant="destructive"
-									className="w-full"
-									onClick={() => {
-										removeEducation(index);
-									}}
-								>
-									<BiMinus className="mr-1" /> Remove
-									Education
-								</Button>
-							</div>
-						))}
-
-						<Button
-							type="button"
-							onClick={() =>
-								appendEducation({
-									schoolName: "",
-									degree: "",
-									fieldOfStudy: "",
-									startYear: "",
-									endYear: "",
-									city: "",
-									description: "",
-								})
-							}
-						>
-							<BiPlus className="mr-1" /> Add Education
-						</Button>
-					</CardContent>
-				</Card>
-
-				{/* Skills */}
-				<Card className="bg-slate-100">
-					<CardHeader>
-						<CardTitle className="text-lg font-bold">
-							<BiEdit className="text-xl mb-1 mr-2 inline" />
-							Skills
-						</CardTitle>
-						<CardDescription>Add your skills below</CardDescription>
-					</CardHeader>
-					<CardContent className="grid gap-4">
-						{skillFields.map((skill, index) => (
-							<div key={index}>
-								<div className="flex gap-3 mb-4 items-end">
-									<div className="grow">
-										<FormField
-											name={`skills[${index}].skillTitle`}
-											render={({ field }) => (
-												<FormItem>
-													<FormLabel>
-														Skill Title
-													</FormLabel>
-													<FormControl>
-														<Input
-															placeholder="Skill Title"
-															{...field}
-														/>
-													</FormControl>
-												</FormItem>
-											)}
-										/>
-									</div>
-									<div className="grow">
-										<FormField
-											name={`skills[${index}].skillRating`}
-											render={({ field }) => (
-												<FormItem>
-													<FormLabel>
-														Skill Rating
-													</FormLabel>
-													<FormControl>
-														<select
-															{...field}
-															className="w-full border rounded-md px-3 py-2"
-														>
-															<option value="Beginner">
-																Beginner
-															</option>
-															<option value="Intermediate">
-																Intermediate
-															</option>
-															<option value="Advanced">
-																Advanced
-															</option>
-															<option value="Expert">
-																Expert
-															</option>
-														</select>
-													</FormControl>
-												</FormItem>
-											)}
-										/>
-									</div>
-									<Button
-										type="button"
-										variant="destructive"
-										onClick={() => {
-											removeSkill(index);
-										}}
-									>
-										<BiMinus className="mr-1" /> Remove
-										Skill
-									</Button>
-								</div>
-							</div>
-						))}
-						<Button
-							type="button"
-							onClick={() =>
-								appendSkill({
-									skillTitle: "",
-									skillRating: "Beginner", // Set a default rating
-								})
-							}
-						>
-							<BiPlus className="mr-1" /> Add Skill
-						</Button>
-					</CardContent>
-				</Card>
-
-				<Button type="submit">Submit</Button>
-			</form>
-		</Form>
-	);
-}
-
-function Builder() {
-	const componentRef = useRef(null);
-	// const [templateId, setTemplateId] = useState(null);
-
-	// useEffect(() => {
-	// 	const searchParams = new URLSearchParams(window.location.search);
-	// 	const queryTemplateId = searchParams.get("templateId");
-
-	// 	if (queryTemplateId) {
-	// 		setTemplateId(queryTemplateId as any);
-	// 	}
-	// }, []);
-
-	const searchParams = useSearchParams();
-	const templateId = searchParams.get("templateId");
-
-	const router = useRouter();
-
-	console.log(templateId);
-
-	return (
-		<section className="pb-10 flex flex-col">
+		<section className="pb-10 flex flex-col bg-slate-50">
 			<div className="flex justify-center bg-slate-200 py-6">
 				<div className="w-full max-w-screen-lg flex justify-between">
 					<h2 className="font-bold text-2xl flex items-center">
@@ -720,19 +207,664 @@ function Builder() {
 						</div>
 
 						<div className="flex justify-center">
-							<div className="w-full max-w-screen-lg">
+							<div className="w-full">
 								<TabsContent value="template">
 									<ChooseTemplate />
 								</TabsContent>
 
 								<TabsContent value="account">
-									<ResumeForm />
+									<div className="flex -my-8 -mb-16 ">
+										<Form {...form}>
+											<form
+												onSubmit={form.handleSubmit(
+													onSubmit
+												)}
+												className="cvForm space-y-8 overflow-auto no-scrollbar p-10 bg-slate-500"
+											>
+												{/* Personal Information */}
+												<Card className=" bg-slate-100 rounded-none ">
+													<CardHeader>
+														<CardTitle className="text-lg font-bold">
+															<BiUser className="text-xl mb-1 mr-2 inline" />
+															Personal Information
+														</CardTitle>
+														<CardDescription>
+															Fill in all required
+															details below
+														</CardDescription>
+													</CardHeader>
+													<CardContent className="grid gap-4">
+														<FormField
+															control={
+																form.control
+															}
+															name="fullName"
+															render={({
+																field,
+															}) => (
+																<FormItem>
+																	<FormLabel>
+																		Full
+																		Name
+																	</FormLabel>
+																	<FormControl>
+																		<Input
+																			placeholder="John Doe"
+																			{...field}
+																		/>
+																	</FormControl>
+																</FormItem>
+															)}
+														/>
+														<FormField
+															control={
+																form.control
+															}
+															name="phoneNumber"
+															render={({
+																field,
+															}) => (
+																<FormItem>
+																	<FormLabel>
+																		Phone
+																		Number
+																	</FormLabel>
+																	<FormControl>
+																		<Input
+																			placeholder="123-456-7890"
+																			{...field}
+																		/>
+																	</FormControl>
+																</FormItem>
+															)}
+														/>
+														<FormField
+															control={
+																form.control
+															}
+															name="emailAddress"
+															render={({
+																field,
+															}) => (
+																<FormItem>
+																	<FormLabel>
+																		Email
+																		Address
+																	</FormLabel>
+																	<FormControl>
+																		<Input
+																			placeholder="you@example.com"
+																			{...field}
+																		/>
+																	</FormControl>
+																</FormItem>
+															)}
+														/>
+														<FormField
+															control={
+																form.control
+															}
+															name="address"
+															render={({
+																field,
+															}) => (
+																<FormItem>
+																	<FormLabel>
+																		Mailing
+																		Address
+																	</FormLabel>
+																	<FormControl>
+																		<Input
+																			placeholder="123 Main St, City, Country"
+																			{...field}
+																		/>
+																	</FormControl>
+																</FormItem>
+															)}
+														/>
+														<FormField
+															control={
+																form.control
+															}
+															name="objective"
+															render={({
+																field,
+															}) => (
+																<FormItem>
+																	<FormLabel>
+																		Objective
+																	</FormLabel>
+																	<FormControl>
+																		<Textarea
+																			placeholder="A brief summary of your career goals..."
+																			{...field}
+																		/>
+																	</FormControl>
+																</FormItem>
+															)}
+														/>
+													</CardContent>
+												</Card>
+
+												{/* Employment History */}
+												<Card className="bg-slate-100 rounded-none">
+													<CardHeader>
+														<CardTitle className="text-lg font-bold">
+															<BiEdit className="text-xl mb-1 mr-2 inline" />
+															Employment History
+														</CardTitle>
+														<CardDescription>
+															Fill in all required
+															details below
+														</CardDescription>
+													</CardHeader>
+													<CardContent className="grid gap-4">
+														{employmentFields.map(
+															(
+																employment,
+																index
+															) => (
+																<div
+																	key={
+																		employment.id
+																	}
+																>
+																	<div className="grow mb-4">
+																		<FormField
+																			name={`employment[${index}].jobTitle`}
+																			render={({
+																				field,
+																			}) => (
+																				<FormItem>
+																					<FormLabel>
+																						Job
+																						Title
+																					</FormLabel>
+																					<FormControl>
+																						<Input
+																							placeholder="Job Title"
+																							{...field}
+																						/>
+																					</FormControl>
+																				</FormItem>
+																			)}
+																		/>
+																	</div>
+																	<div className="flex gap-3 mb-4">
+																		<div className="grow">
+																			<FormField
+																				name={`employment[${index}].companyName`}
+																				render={({
+																					field,
+																				}) => (
+																					<FormItem>
+																						<FormLabel>
+																							Company
+																							Name
+																						</FormLabel>
+																						<FormControl>
+																							<Input
+																								placeholder="Company Name"
+																								{...field}
+																							/>
+																						</FormControl>
+																					</FormItem>
+																				)}
+																			/>
+																		</div>
+																		<div className="grow">
+																			<FormField
+																				name={`employment[${index}].city`}
+																				render={({
+																					field,
+																				}) => (
+																					<FormItem>
+																						<FormLabel>
+																							City
+																						</FormLabel>
+																						<FormControl>
+																							<Input
+																								placeholder="City"
+																								{...field}
+																							/>
+																						</FormControl>
+																					</FormItem>
+																				)}
+																			/>
+																		</div>
+																	</div>
+																	<div className="flex gap-3 grow mb-4">
+																		<div className="grow">
+																			<FormField
+																				name={`employment[${index}].startYear`}
+																				render={({
+																					field,
+																				}) => (
+																					<FormItem>
+																						<FormLabel>
+																							Start
+																							Year
+																						</FormLabel>
+																						<FormControl>
+																							<Input
+																								placeholder="Start Year"
+																								{...field}
+																							/>
+																						</FormControl>
+																					</FormItem>
+																				)}
+																			/>
+																		</div>
+																		<div className="grow">
+																			<FormField
+																				name={`employment[${index}].endYear`}
+																				render={({
+																					field,
+																				}) => (
+																					<FormItem>
+																						<FormLabel>
+																							End
+																							Year
+																						</FormLabel>
+																						<FormControl>
+																							<Input
+																								placeholder="End Year"
+																								{...field}
+																							/>
+																						</FormControl>
+																					</FormItem>
+																				)}
+																			/>
+																		</div>
+																	</div>
+																	<div className="grow mb-4">
+																		<FormField
+																			name={`employment[${index}].description`}
+																			render={({
+																				field,
+																			}) => (
+																				<FormItem>
+																					<FormLabel>
+																						Description
+																					</FormLabel>
+																					<FormControl>
+																						<Textarea
+																							placeholder="Description"
+																							{...field}
+																						/>
+																					</FormControl>
+																				</FormItem>
+																			)}
+																		/>
+																	</div>
+																	<Button
+																		type="button"
+																		variant="destructive"
+																		className="w-full"
+																		onClick={() => {
+																			removeEmployment(
+																				index
+																			);
+																		}}
+																	>
+																		<BiMinus className="mr-1" />{" "}
+																		Remove
+																		Employment
+																	</Button>
+																</div>
+															)
+														)}
+														<Button
+															type="button"
+															onClick={() =>
+																appendEmployment(
+																	{
+																		jobTitle:
+																			"",
+																		companyName:
+																			"",
+																		city: "",
+																		startYear:
+																			"",
+																		endYear:
+																			"",
+																		description:
+																			"",
+																	}
+																)
+															}
+														>
+															<BiPlus className="mr-1" />{" "}
+															Add Employment
+														</Button>
+													</CardContent>
+												</Card>
+
+												{/* Education */}
+												<Card className=" bg-slate-100 rounded-none ">
+													<CardHeader>
+														<CardTitle className="text-lg font-bold">
+															<BiEdit className="text-xl mb-1 mr-2 inline" />
+															Educations
+														</CardTitle>
+														<CardDescription>
+															Fill in all required
+															details below
+														</CardDescription>
+													</CardHeader>
+													<CardContent className="grid gap-4">
+														{educationFields.map(
+															(
+																education,
+																index
+															) => (
+																<div
+																	key={
+																		education.id
+																	}
+																>
+																	<div className="grow mb-4">
+																		<FormField
+																			name={`education[${index}].schoolName`}
+																			key={
+																				education.id
+																			}
+																			render={({
+																				field,
+																			}) => (
+																				<FormItem>
+																					<FormLabel>
+																						School
+																						Name
+																					</FormLabel>
+																					<FormControl>
+																						<Input
+																							placeholder="School Name"
+																							{...field}
+																						/>
+																					</FormControl>
+																				</FormItem>
+																			)}
+																		/>
+																	</div>
+																	<div className="flex gap-3 mb-4">
+																		<div className="grow">
+																			<FormField
+																				name={`education[${index}].degree`}
+																				render={({
+																					field,
+																				}) => (
+																					<FormItem>
+																						<FormLabel>
+																							Degree
+																						</FormLabel>
+																						<FormControl>
+																							<Input
+																								placeholder="Degree"
+																								{...field}
+																							/>
+																						</FormControl>
+																					</FormItem>
+																				)}
+																			/>
+																		</div>
+																		<div className="grow">
+																			<FormField
+																				name={`education[${index}].fieldOfStudy`}
+																				render={({
+																					field,
+																				}) => (
+																					<FormItem>
+																						<FormLabel>
+																							Field
+																							of
+																							Study
+																						</FormLabel>
+																						<FormControl>
+																							<Input
+																								placeholder="Field of Study"
+																								{...field}
+																							/>
+																						</FormControl>
+																					</FormItem>
+																				)}
+																			/>
+																		</div>
+																	</div>
+
+																	<div className="flex gap-3 grow mb-4">
+																		<div className="grow">
+																			<FormField
+																				name={`education[${index}].startYear`}
+																				render={({
+																					field,
+																				}) => (
+																					<FormItem>
+																						<FormLabel>
+																							Start
+																							Year
+																						</FormLabel>
+																						<FormControl>
+																							<Input
+																								placeholder="Start Year"
+																								{...field}
+																							/>
+																						</FormControl>
+																					</FormItem>
+																				)}
+																			/>
+																		</div>
+																		<div className="grow">
+																			<FormField
+																				name={`education[${index}].endYear`}
+																				render={({
+																					field,
+																				}) => (
+																					<FormItem>
+																						<FormLabel>
+																							End
+																							Year
+																						</FormLabel>
+																						<FormControl>
+																							<Input
+																								placeholder="End Year"
+																								{...field}
+																							/>
+																						</FormControl>
+																					</FormItem>
+																				)}
+																			/>
+																		</div>
+																	</div>
+
+																	<div className="grow  mb-4">
+																		<FormField
+																			name={`education[${index}].description`}
+																			render={({
+																				field,
+																			}) => (
+																				<FormItem>
+																					<FormLabel>
+																						Description
+																					</FormLabel>
+																					<FormControl>
+																						<Textarea
+																							placeholder="Description"
+																							{...field}
+																						/>
+																					</FormControl>
+																				</FormItem>
+																			)}
+																		/>
+																	</div>
+																	<Button
+																		type="button"
+																		variant="destructive"
+																		className="w-full"
+																		onClick={() => {
+																			removeEducation(
+																				index
+																			);
+																		}}
+																	>
+																		<BiMinus className="mr-1" />{" "}
+																		Remove
+																		Education
+																	</Button>
+																</div>
+															)
+														)}
+
+														<Button
+															type="button"
+															onClick={() =>
+																appendEducation(
+																	{
+																		schoolName:
+																			"",
+																		degree: "",
+																		fieldOfStudy:
+																			"",
+																		startYear:
+																			"",
+																		endYear:
+																			"",
+																		city: "",
+																		description:
+																			"",
+																	}
+																)
+															}
+														>
+															<BiPlus className="mr-1" />{" "}
+															Add Education
+														</Button>
+													</CardContent>
+												</Card>
+
+												{/* Skills */}
+												<Card className="bg-slate-100 rounded-none">
+													<CardHeader>
+														<CardTitle className="text-lg font-bold">
+															<BiEdit className="text-xl mb-1 mr-2 inline" />
+															Skills
+														</CardTitle>
+														<CardDescription>
+															Add your skills
+															below
+														</CardDescription>
+													</CardHeader>
+													<CardContent className="grid gap-4">
+														{skillFields.map(
+															(skill, index) => (
+																<div
+																	key={index}
+																>
+																	<div className="flex gap-3 mb-4 items-end">
+																		<div className="grow">
+																			<FormField
+																				name={`skills[${index}].skillTitle`}
+																				render={({
+																					field,
+																				}) => (
+																					<FormItem>
+																						<FormLabel>
+																							Skill
+																							Title
+																						</FormLabel>
+																						<FormControl>
+																							<Input
+																								placeholder="Skill Title"
+																								{...field}
+																							/>
+																						</FormControl>
+																					</FormItem>
+																				)}
+																			/>
+																		</div>
+																		<div className="grow">
+																			<FormField
+																				name={`skills[${index}].skillRating`}
+																				render={({
+																					field,
+																				}) => (
+																					<FormItem>
+																						<FormLabel>
+																							Skill
+																							Rating
+																						</FormLabel>
+																						<FormControl>
+																							<select
+																								{...field}
+																								className="w-full border rounded-md px-3 py-2"
+																							>
+																								<option value="Beginner">
+																									Beginner
+																								</option>
+																								<option value="Intermediate">
+																									Intermediate
+																								</option>
+																								<option value="Advanced">
+																									Advanced
+																								</option>
+																								<option value="Expert">
+																									Expert
+																								</option>
+																							</select>
+																						</FormControl>
+																					</FormItem>
+																				)}
+																			/>
+																		</div>
+																		<Button
+																			type="button"
+																			variant="destructive"
+																			onClick={() => {
+																				removeSkill(
+																					index
+																				);
+																			}}
+																		>
+																			<BiMinus className="mr-1" />{" "}
+																			Remove
+																			Skill
+																		</Button>
+																	</div>
+																</div>
+															)
+														)}
+														<Button
+															type="button"
+															onClick={() =>
+																appendSkill({
+																	skillTitle:
+																		"",
+																	skillRating:
+																		"Beginner", // Set a default rating
+																})
+															}
+														>
+															<BiPlus className="mr-1" />{" "}
+															Add Skill
+														</Button>
+													</CardContent>
+												</Card>
+
+												<Button type="submit">
+													Submit
+												</Button>
+											</form>
+										</Form>
+										{templateId === "professional" && (
+											<Professional
+												ref={componentRef}
+												data={data}
+											/>
+										)}
+									</div>
 								</TabsContent>
 
 								<TabsContent value="review">
-									{templateId === "professional" && (
-										<Professional ref={componentRef} />
-									)}
 									<ReactToPrint
 										trigger={() => {
 											return (
