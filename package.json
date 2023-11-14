@@ -36,6 +36,7 @@
     "tailwindcss": "^3.3.3",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "5.2.2",
+    "use-local-storage": "^3.0.0",
     "uuidv4": "^6.2.13",
     "zod": "^3.22.4"
   }
