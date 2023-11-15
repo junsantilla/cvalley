@@ -1,5 +1,5 @@
-import React, { useRef } from "react"
-import { BiDownload, BiEdit, BiFileFind, BiMinus, BiPlus, BiPrinter, BiSave, BiUser } from "react-icons/bi"
+import React from "react"
+import { BiDownload, BiEdit, BiFileFind, BiMinus, BiPlus, BiUser } from "react-icons/bi"
 import { Button } from "./ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -9,7 +9,6 @@ import { Form, FormControl, FormField, FormItem, FormLabel } from "./ui/form"
 import { Input } from "./ui/input"
 import { Textarea } from "./ui/textarea"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card"
-import ReactToPrint from "react-to-print"
 import { useRouter } from "next/navigation"
 import ChooseTemplate from "./ChooseTemplate"
 import { useSearchParams } from "next/navigation"
@@ -56,8 +55,6 @@ const formSchema = z.object({
 })
 
 function Builder() {
-    const componentRef = useRef(null)
-
     const searchParams = useSearchParams()
     const templateId = searchParams.get("templateId")
 
@@ -166,8 +163,8 @@ function Builder() {
                     </h2>
                     <div className="flex gap-1">
                         <Button type="button">
-                            <BiSave className="mr-1" />
-                            Save
+                            <BiDownload className="mr-1" />
+                            Downlaod
                         </Button>
                     </div>
                 </div>
@@ -189,12 +186,6 @@ function Builder() {
                                     </TabsTrigger>
                                     <TabsTrigger value="account">
                                         <BiUser className="inline-block mr-2" /> 2. Enter Information
-                                    </TabsTrigger>
-                                    <TabsTrigger value="review">
-                                        <BiEdit className="inline-block mr-2" /> 3. Review
-                                    </TabsTrigger>
-                                    <TabsTrigger value="download">
-                                        <BiDownload className="inline-block mr-2" /> 4. Download
                                     </TabsTrigger>
                                 </TabsList>
                             </div>
@@ -757,20 +748,6 @@ function Builder() {
                                         </Form>
                                         {templateId === "professional" && <Professional />}
                                     </div>
-                                </TabsContent>
-
-                                <TabsContent value="review">
-                                    <ReactToPrint
-                                        trigger={() => {
-                                            return (
-                                                <Button type="button">
-                                                    <BiPrinter className="mr-1" />
-                                                    Print
-                                                </Button>
-                                            )
-                                        }}
-                                        content={() => componentRef.current}
-                                    />
                                 </TabsContent>
                             </div>
                         </div>
