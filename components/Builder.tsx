@@ -1,5 +1,5 @@
 import React from "react"
-import { BiDownload, BiEdit, BiFileFind, BiMinus, BiPlus, BiUser } from "react-icons/bi"
+import { BiSolidFilePdf, BiEdit, BiFileFind, BiMinus, BiPlus, BiUser } from "react-icons/bi"
 import { Button } from "./ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -14,6 +14,8 @@ import ChooseTemplate from "./ChooseTemplate"
 import { useSearchParams } from "next/navigation"
 import Professional from "@/templates/Professional"
 import useLocalStorage from "use-local-storage"
+import html2canvas from "html2canvas"
+import jsPDF from "jspdf"
 
 // Form schema
 const formSchema = z.object({
@@ -153,6 +155,25 @@ function Builder() {
         })
     }
 
+    const handleButtonClick = async () => {
+        const canvas = await generateCanvas()
+        const pdf = generatePDF(canvas)
+        pdf.save("CValley.pdf")
+    }
+
+    const generateCanvas = async () => {
+        const element = document.getElementById("element-to-capture") as HTMLElement
+        const canvas = await html2canvas(element)
+        return canvas
+    }
+
+    const generatePDF = (canvas: HTMLCanvasElement) => {
+        const pdf = new jsPDF("p", "mm", "a4")
+        const imgData = canvas.toDataURL("image/png")
+        pdf.addImage(imgData, "PNG", 0, 0, 210, 297)
+        return pdf
+    }
+
     return (
         <section className="pb-10 flex flex-col bg-slate-50">
             <div className="flex justify-center bg-slate-200 py-3">
@@ -162,9 +183,9 @@ function Builder() {
                         {/* <BiEdit className="ml-1 text-2xl inline mb-1" /> */}
                     </h2>
                     <div className="flex gap-1">
-                        <Button type="button">
-                            <BiDownload className="mr-1" />
-                            Downlaod
+                        <Button type="button" onClick={handleButtonClick} disabled={!templateId}>
+                            <BiSolidFilePdf className="mr-1" />
+                            Downlaod PDF
                         </Button>
                     </div>
                 </div>
@@ -184,7 +205,7 @@ function Builder() {
                                     >
                                         <BiFileFind className="inline-block mr-2" /> 1. Choose Template
                                     </TabsTrigger>
-                                    <TabsTrigger value="account">
+                                    <TabsTrigger value="account" disabled={!templateId}>
                                         <BiUser className="inline-block mr-2" /> 2. Enter Information
                                     </TabsTrigger>
                                 </TabsList>
