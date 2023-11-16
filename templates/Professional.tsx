@@ -33,8 +33,8 @@ const Professional: React.FC = () => {
     }
 
     return (
-        <div className="flex flex-col">
-            <div className="flex justify-center w-full p-10">
+        <div className="flex flex-col justify-center w-full">
+            <div className="flex justify-center w-full p-8">
                 <div className="a4 border p-10 bg-white" id="element-to-capture">
                     <p>Full Name: {data.fullName}</p>
                     <p>Phone Number: {data.phoneNumber}</p>

@@ -175,41 +175,33 @@ function Builder() {
     }
 
     return (
-        <section className="pb-10 flex flex-col bg-slate-50">
-            <div className="flex justify-center bg-slate-200 py-3">
-                <div className="w-full max-w-screen-lg flex justify-between">
-                    <h2 className="font-bold text-2xl flex items-center">
-                        Template Name
-                        {/* <BiEdit className="ml-1 text-2xl inline mb-1" /> */}
-                    </h2>
-                    <div className="flex gap-1">
-                        <Button type="button" onClick={handleButtonClick} disabled={!templateId}>
-                            <BiSolidFilePdf className="mr-1" />
-                            Downlaod PDF
-                        </Button>
-                    </div>
-                </div>
-            </div>
+        <section className="pb-10 flex flex-col ">
             <div className="flex justify-center mb-6">
                 <div className="w-full">
                     <Tabs value={templateId == null ? "template" : "account"} className="p-0">
-                        <div className="bg-slate-300 w-full flex justify-center mb-6 border-y border-slate-300">
-                            <div className="bg-slate-300 w-full max-w-screen-lg">
-                                <TabsList className="bg-slate-300 p-0">
-                                    <TabsTrigger
-                                        value="template"
-                                        onClick={() => {
-                                            // Clear all query parameters when "Choose Template" tab is clicked
-                                            router.push("/cv-builder")
-                                        }}
-                                    >
-                                        <BiFileFind className="inline-block mr-2" /> 1. Choose Template
-                                    </TabsTrigger>
-                                    <TabsTrigger value="account" disabled={!templateId}>
-                                        <BiUser className="inline-block mr-2" /> 2. Enter Information
-                                    </TabsTrigger>
-                                </TabsList>
-                            </div>
+                        <div className="bg-slate-900 text-slate-100 w-full flex justify-between mb-6 py-3 px-8">
+                            <h2 className="font-bold text-lg flex items-center capitalize">{templateId ?? "Choose Template"}</h2>
+
+                            <TabsList className="bg-slate-900 p-0">
+                                <TabsTrigger
+                                    value="template"
+                                    onClick={() => {
+                                        // Clear all query parameters when "Choose Template" tab is clicked
+                                        router.push("/cv-builder")
+                                    }}
+                                    className="bg-slate-900 "
+                                >
+                                    <BiFileFind className="inline-block mr-2 " /> 1. Choose Template
+                                </TabsTrigger>
+                                <TabsTrigger value="account" disabled={!templateId}>
+                                    <BiUser className="inline-block mr-2 " /> 2. Enter Information
+                                </TabsTrigger>
+                            </TabsList>
+
+                            <Button type="button" onClick={handleButtonClick} disabled={!templateId} className="bg-slate-800 hover:bg-slate-950 h-8 mt-1">
+                                <BiSolidFilePdf className="mr-1" />
+                                Downlaod PDF
+                            </Button>
                         </div>
 
                         <div className="flex justify-center">
@@ -221,9 +213,9 @@ function Builder() {
                                 <TabsContent value="account">
                                     <div className="flex -my-8 -mb-16 ">
                                         <Form {...form}>
-                                            <form onSubmit={form.handleSubmit(onSubmit)} className="cvForm space-y-8 overflow-auto no-scrollbar p-10 bg-slate-500">
+                                            <form onSubmit={form.handleSubmit(onSubmit)} className="cvForm space-y-8 overflow-auto no-scrollbar p-8 bg-slate-200">
                                                 {/* Personal Information */}
-                                                <Card className=" bg-slate-100 rounded-none ">
+                                                <Card className=" bg-slate-100  ">
                                                     <CardHeader>
                                                         <CardTitle className="text-lg font-bold">
                                                             <BiUser className="text-xl mb-1 mr-2 inline" />
@@ -331,7 +323,7 @@ function Builder() {
                                                 </Card>
 
                                                 {/* Employment History */}
-                                                <Card className="bg-slate-100 rounded-none">
+                                                <Card className="bg-slate-100 ">
                                                     <CardHeader>
                                                         <CardTitle className="text-lg font-bold">
                                                             <BiEdit className="text-xl mb-1 mr-2 inline" />
@@ -504,7 +496,7 @@ function Builder() {
                                                 </Card>
 
                                                 {/* Education */}
-                                                <Card className=" bg-slate-100 rounded-none ">
+                                                <Card className=" bg-slate-100  ">
                                                     <CardHeader>
                                                         <CardTitle className="text-lg font-bold">
                                                             <BiEdit className="text-xl mb-1 mr-2 inline" />
@@ -681,7 +673,7 @@ function Builder() {
                                                 </Card>
 
                                                 {/* Skills */}
-                                                <Card className="bg-slate-100 rounded-none">
+                                                <Card className="bg-slate-100 ">
                                                     <CardHeader>
                                                         <CardTitle className="text-lg font-bold">
                                                             <BiEdit className="text-xl mb-1 mr-2 inline" />
