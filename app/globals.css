@@ -19,6 +19,7 @@
 .a4 {
     width: 794px;
     height: 1123px;
+    overflow: hidden;
 }
 
 .cvForm {
@@ -28,4 +29,9 @@
 
 .no-scrollbar::-webkit-scrollbar {
     display: none;
+}
+
+.sidebar {
+    min-width: 280px;
+    max-width: 280px;
 }

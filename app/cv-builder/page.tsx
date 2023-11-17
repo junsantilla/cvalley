@@ -14,9 +14,12 @@ function page() {
     const { user } = UserAuth()
     const [isLoading, setIsLoading] = useState(false)
 
-    localStorage.setItem("redirectTo", window.location.pathname)
-
     useEffect(() => {
+        // Check if localStorage is defined (client-side)
+        if (typeof window !== "undefined" && window.localStorage) {
+            localStorage.setItem("redirectTo", window.location.pathname)
+        }
+
         if (user === null) {
             redirect("/login")
         } else {
