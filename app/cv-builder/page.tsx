@@ -58,7 +58,7 @@ function page() {
                 <div className="border-t bg-slate-50">
                     <div className="flex h-16 items-center px-4 mx-4">
                         <p>
-                            Copyright 2023 - <span className="font-extrabold">CValley.io</span>
+                            Copyright 2023 - <span className="font-extrabold">CValley</span>
                         </p>
                     </div>
                 </div>

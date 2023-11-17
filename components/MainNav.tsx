@@ -7,7 +7,7 @@ export function MainNav() {
                 // href="/dashboard"
                 className="text-lg font-extrabold transition-colors hover:text-primary"
             >
-                CValley.io
+                CValley
             </div>
             {/* <Link
 				href="/dashboard"
