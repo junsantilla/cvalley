@@ -155,24 +155,36 @@ function Builder() {
         })
     }
 
-    const handleButtonClick = async () => {
-        const canvas = await generateCanvas()
-        const pdf = generatePDF(canvas)
-        pdf.save("CValley.pdf")
-    }
+    async function generatePDFfromHTML(htmlContentId: string, outputPath: string) {
+        const doc = new jsPDF()
 
-    const generateCanvas = async () => {
-        const element = document.getElementById("element-to-capture") as HTMLElement
-        const canvas = await html2canvas(element)
-        return canvas
-    }
+        const htmlElement = document.getElementById(htmlContentId)
+        if (!htmlElement) {
+            console.error(`Element with ID '${htmlContentId}' not found.`)
+            return
+        }
 
-    const generatePDF = (canvas: HTMLCanvasElement) => {
-        const pdf = new jsPDF("p", "mm", "a4")
+        // Use html2canvas to capture the HTML content as an image
+        const canvas = await html2canvas(htmlElement, {
+            scale: 2, // Increase the scale factor to improve resolution
+            logging: true, // Enable logging to see if there are any issues
+            width: htmlElement.offsetWidth,
+            height: htmlElement.offsetHeight,
+        })
+
+        // Convert the canvas to a data URL
         const imgData = canvas.toDataURL("image/png")
-        pdf.addImage(imgData, "PNG", 0, 0, 210, 297)
-        return pdf
+
+        // Add the image to the PDF
+        doc.addImage(imgData, "PNG", 0, 0, 210, 0) // Adjust the parameters as needed
+
+        // Save the PDF
+        doc.save(outputPath)
+        console.log("PDF generated successfully")
     }
+
+    // Usage
+    const htmlContentId = "element-to-capture" // Replace with your actual element ID
 
     return (
         <section className="pb-10 flex flex-col ">
@@ -198,7 +210,7 @@ function Builder() {
                                 </TabsTrigger>
                             </TabsList>
 
-                            <Button type="button" onClick={handleButtonClick} disabled={!templateId} className="bg-slate-800 hover:bg-slate-950 h-8 mt-1">
+                            <Button type="button" onClick={() => generatePDFfromHTML(htmlContentId, "cvalley.pdf")} disabled={!templateId} className="bg-slate-800 hover:bg-slate-950 h-8 mt-1">
                                 <BiSolidFilePdf className="mr-1" />
                                 Downlaod PDF
                             </Button>
