@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { BiSolidFilePdf, BiEdit, BiFileFind, BiMinus, BiPlus, BiUser } from "react-icons/bi"
 import { Button } from "./ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs"
@@ -54,6 +54,7 @@ const formSchema = z.object({
                 .optional(),
         })
     ),
+    image: z.string().max(500).optional(),
 })
 
 function Builder() {
@@ -63,6 +64,7 @@ function Builder() {
     const router = useRouter()
 
     const [data, setData] = useLocalStorage("data", {})
+    const [imagePreview, setImagePreview] = useState<string>("")
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -148,12 +150,20 @@ function Builder() {
             const newData = { ...prevData } as any
             const categoryData = newData[category] || []
             const currentData = categoryData[index] || {}
-            currentData[fieldName] = value
+
+            if (fieldName === "image") {
+                currentData["imageUrl"] = value
+            } else {
+                currentData[fieldName] = value
+            }
+
             categoryData[index] = currentData
             newData[category] = categoryData
             return newData
         })
     }
+
+    console.log(data)
 
     async function generatePDFfromHTML(htmlContentId: string, outputPath: string) {
         const doc = new jsPDF()
@@ -236,6 +246,32 @@ function Builder() {
                                                         <CardDescription>Fill in all required details below</CardDescription>
                                                     </CardHeader>
                                                     <CardContent className="grid gap-4">
+                                                        <FormField
+                                                            control={form.control}
+                                                            name="image"
+                                                            render={({ field }) => (
+                                                                <FormItem>
+                                                                    <FormLabel>Upload Image</FormLabel>
+                                                                    <FormControl>
+                                                                        <Input
+                                                                            type="file"
+                                                                            onChange={(e) => {
+                                                                                field.onChange(e)
+                                                                                handleInputChange("image", e.target.value)
+                                                                                // Image preview logic
+                                                                                const reader = new FileReader()
+                                                                                reader.onloadend = () => {
+                                                                                    setImagePreview(reader.result as string)
+                                                                                }
+                                                                                if (e.target.files && e.target.files[0]) {
+                                                                                    reader.readAsDataURL(e.target.files[0])
+                                                                                }
+                                                                            }}
+                                                                        />
+                                                                    </FormControl>
+                                                                </FormItem>
+                                                            )}
+                                                        />
                                                         <FormField
                                                             control={form.control}
                                                             name="fullName"
@@ -771,7 +807,7 @@ function Builder() {
                                                 <Button type="submit">Submit</Button>
                                             </form>
                                         </Form>
-                                        {templateId === "professional" && <Professional />}
+                                        {templateId === "professional" && <Professional imagePreview={imagePreview} />}
                                     </div>
                                 </TabsContent>
                             </div>

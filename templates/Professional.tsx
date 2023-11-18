@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react"
+import { Avatar, AvatarImage } from "@/components/ui/avatar"
 
-const Professional: React.FC = () => {
+interface ProfessionalProps {
+    imagePreview: string
+}
+
+const Professional: React.FC<ProfessionalProps> = ({ imagePreview }) => {
     const [data, setData] = useState<any>(null)
 
     const updateData = () => {
@@ -43,21 +48,17 @@ const Professional: React.FC = () => {
             <div className="flex a4 bg-slate-200  h-full text-sm" id="element-to-capture">
                 {/* Sidebar  */}
                 <div className="sidebar font-medium bg-slate-900 text-slate-200 p-10">
-                    <div className="grid gap-2 mb-8">
+                    <div className="flex flex-col justify-center gap-2 mb-8">
+                        {imagePreview && (
+                            <Avatar className=" w-32 h-32 mb-1 shadow-md">
+                                <AvatarImage src={imagePreview} alt="Profile Image" className="object-cover" />
+                            </Avatar>
+                        )}
                         <p className="font-extrabold text-xl">{data.fullName}</p>
                         <p className="font-bold">Web Developer</p>
-                        <p className="flex items-center">
-                            {/* <BiSolidPhone className="inline h-4 mr-2" /> */}
-                            {data.phoneNumber}
-                        </p>
-                        <p className="flex items-center">
-                            {/* <BiSolidEnvelope className="inline h-4 mr-3 mt-1" /> */}
-                            {data.emailAddress}
-                        </p>
-                        <p className="flex items-start">
-                            {/* <BiSolidMap className="inline w-6 mt-1 mr-2 " /> */}
-                            {data.address}
-                        </p>
+                        <p>{data.phoneNumber}</p>
+                        <p>{data.emailAddress}</p>
+                        <p>{data.address}</p>
                     </div>
 
                     <h2 className="font-bold text-lg mb-3 ">Skills:</h2>
