@@ -72,83 +72,93 @@ const Professional: React.FC<ProfessionalProps> = ({ imagePreview }) => {
                             </Avatar>
                         )}
                         <p className="font-extrabold text-xl">{data.fullName}</p>
-                        <p className="font-bold">Web Developer</p>
+                        <p className="font-bold">{data.jobTitle}</p>
                         <p>{data.phoneNumber}</p>
                         <p>{data.emailAddress}</p>
                         <p>{data.address}</p>
                     </div>
 
-                    <h2 className="font-bold text-lg mb-3 ">Skills:</h2>
-                    <ul className="grid gap-2">
-                        {data.skills?.map((skill: any, index: number) => (
-                            <li key={index}>{skill.skillTitle}</li>
-                        ))}
-                    </ul>
+                    {data.skills && (
+                        <>
+                            <h2 className="font-bold text-lg mb-3 ">Skills:</h2>
+                            <ul className="grid gap-2">
+                                {data.skills?.map((skill: any, index: number) => (
+                                    <li key={index}>{skill.skillTitle}</li>
+                                ))}
+                            </ul>
+                        </>
+                    )}
                 </div>
 
                 {/* Main content  */}
                 <div className="grow bg-white text-slate-900 p-10 overflow-hidden">
                     {/* Profile  */}
-                    <div className="profile mb-8">
-                        <h2 className="font-extrabold text-lg mb-3">
-                            <span>█ </span>Profile:
-                        </h2>
-                        <p>{data.objective}</p>
-                    </div>
+                    {data.objective && (
+                        <div className="profile mb-8">
+                            <h2 className="font-extrabold text-lg mb-3">
+                                <span>█ </span>Profile:
+                            </h2>
+                            <p>{data.objective}</p>
+                        </div>
+                    )}
 
                     {/* Employment  */}
-                    <div className="employment mb-8">
-                        <h2 className="font-extrabold text-lg mb-4">
-                            <span>█ </span>Employment History:
-                        </h2>
-                        <ul>
-                            {data.employment?.map((job: any, index: number) => (
-                                <div className="mb-4">
-                                    <li key={index}>
-                                        <p className="font-bold">
-                                            <p className="text-lg">{job.jobTitle}</p>
-                                            <p className="text-xs">
-                                                {job.companyName}, {job.city}
-                                            </p>
-                                        </p>
-
-                                        <p className="text-xs py-1 spa  text-slate-600 uppercase font-bold">
-                                            {job.startYear} - {job.endYear}
-                                        </p>
-                                        <p>{job.description}</p>
-                                    </li>
-                                </div>
-                            ))}
-                        </ul>
-                    </div>
-
-                    {/* Education  */}
-                    <div className="education mb-8">
-                        <h2 className="font-extrabold text-lg mb-4">
-                            <span>█ </span>Education:
-                        </h2>
-                        <ul>
-                            {data.education?.map((school: any, index: number) => (
-                                <li key={index}>
+                    {data.employment && (
+                        <div className="employment mb-8">
+                            <h2 className="font-extrabold text-lg mb-4">
+                                <span>█ </span>Employment History:
+                            </h2>
+                            <ul>
+                                {data.employment?.map((job: any, index: number) => (
                                     <div className="mb-4">
                                         <li key={index}>
                                             <p className="font-bold">
-                                                <p className="text-lg">{school.schoolName}</p>
+                                                <p className="text-lg">{job.jobTitle}</p>
                                                 <p className="text-xs">
-                                                    {school.degree}, {school.fieldOfStudy}
+                                                    {job.companyName}, {job.city}
                                                 </p>
                                             </p>
 
-                                            <p className="font-xs text-xs py-1 spa tracking-widest  text-slate-500 uppercase font-semibold">
-                                                {school.startYear} - {school.endYear}
+                                            <p className="text-xs py-1 spa  text-slate-600 uppercase font-bold">
+                                                {job.startYear} - {job.endYear}
                                             </p>
-                                            <p>{school.description}</p>
+                                            <p>{job.description}</p>
                                         </li>
                                     </div>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+
+                    {/* Education  */}
+                    {data.education && (
+                        <div className="education mb-8">
+                            <h2 className="font-extrabold text-lg mb-4">
+                                <span>█ </span>Education:
+                            </h2>
+                            <ul>
+                                {data.education?.map((school: any, index: number) => (
+                                    <li key={index}>
+                                        <div className="mb-4">
+                                            <li key={index}>
+                                                <p className="font-bold">
+                                                    <p className="text-lg">{school.schoolName}</p>
+                                                    <p className="text-xs">
+                                                        {school.degree}, {school.fieldOfStudy}
+                                                    </p>
+                                                </p>
+
+                                                <p className="font-xs text-xs py-1 spa tracking-widest  text-slate-500 uppercase font-semibold">
+                                                    {school.startYear} - {school.endYear}
+                                                </p>
+                                                <p>{school.description}</p>
+                                            </li>
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

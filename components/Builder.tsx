@@ -20,6 +20,7 @@ import jsPDF from "jspdf"
 // Form schema
 const formSchema = z.object({
     fullName: z.string().max(100).optional(),
+    jobTitle: z.string().max(100).optional(),
     phoneNumber: z.string().max(15).optional(),
     emailAddress: z.string().optional(),
     address: z.string().max(100).optional(),
@@ -270,63 +271,89 @@ function Builder() {
                                                                 </FormItem>
                                                             )}
                                                         />
-                                                        <FormField
-                                                            control={form.control}
-                                                            name="fullName"
-                                                            render={({ field }) => (
-                                                                <FormItem>
-                                                                    <FormLabel>Full Name</FormLabel>
-                                                                    <FormControl>
-                                                                        <Input
-                                                                            placeholder="John Doe"
-                                                                            {...field}
-                                                                            onChange={(e) => {
-                                                                                field.onChange(e)
-                                                                                handleInputChange("fullName", e.target.value)
-                                                                            }}
-                                                                        />
-                                                                    </FormControl>
-                                                                </FormItem>
-                                                            )}
-                                                        />
-                                                        <FormField
-                                                            control={form.control}
-                                                            name="phoneNumber"
-                                                            render={({ field }) => (
-                                                                <FormItem>
-                                                                    <FormLabel>Phone Number</FormLabel>
-                                                                    <FormControl>
-                                                                        <Input
-                                                                            placeholder="123-456-7890"
-                                                                            {...field}
-                                                                            onChange={(e) => {
-                                                                                field.onChange(e)
-                                                                                handleInputChange("phoneNumber", e.target.value)
-                                                                            }}
-                                                                        />
-                                                                    </FormControl>
-                                                                </FormItem>
-                                                            )}
-                                                        />
-                                                        <FormField
-                                                            control={form.control}
-                                                            name="emailAddress"
-                                                            render={({ field }) => (
-                                                                <FormItem>
-                                                                    <FormLabel>Email Address</FormLabel>
-                                                                    <FormControl>
-                                                                        <Input
-                                                                            placeholder="you@example.com"
-                                                                            {...field}
-                                                                            onChange={(e) => {
-                                                                                field.onChange(e)
-                                                                                handleInputChange("emailAddress", e.target.value)
-                                                                            }}
-                                                                        />
-                                                                    </FormControl>
-                                                                </FormItem>
-                                                            )}
-                                                        />
+
+                                                        <div className="flex gap-4">
+                                                            {" "}
+                                                            <FormField
+                                                                control={form.control}
+                                                                name="fullName"
+                                                                render={({ field }) => (
+                                                                    <FormItem className="grow">
+                                                                        <FormLabel>Full Name</FormLabel>
+                                                                        <FormControl>
+                                                                            <Input
+                                                                                placeholder="John Doe"
+                                                                                {...field}
+                                                                                onChange={(e) => {
+                                                                                    field.onChange(e)
+                                                                                    handleInputChange("fullName", e.target.value)
+                                                                                }}
+                                                                            />
+                                                                        </FormControl>
+                                                                    </FormItem>
+                                                                )}
+                                                            />
+                                                            <FormField
+                                                                control={form.control}
+                                                                name="jobTitle"
+                                                                render={({ field }) => (
+                                                                    <FormItem className="grow">
+                                                                        <FormLabel>Job Title</FormLabel>
+                                                                        <FormControl>
+                                                                            <Input
+                                                                                placeholder="Web Developer"
+                                                                                {...field}
+                                                                                onChange={(e) => {
+                                                                                    field.onChange(e)
+                                                                                    handleInputChange("jobTitle", e.target.value)
+                                                                                }}
+                                                                            />
+                                                                        </FormControl>
+                                                                    </FormItem>
+                                                                )}
+                                                            />
+                                                        </div>
+
+                                                        <div className="flex gap-4">
+                                                            <FormField
+                                                                control={form.control}
+                                                                name="phoneNumber"
+                                                                render={({ field }) => (
+                                                                    <FormItem className="grow">
+                                                                        <FormLabel>Phone Number</FormLabel>
+                                                                        <FormControl>
+                                                                            <Input
+                                                                                placeholder="123-456-7890"
+                                                                                {...field}
+                                                                                onChange={(e) => {
+                                                                                    field.onChange(e)
+                                                                                    handleInputChange("phoneNumber", e.target.value)
+                                                                                }}
+                                                                            />
+                                                                        </FormControl>
+                                                                    </FormItem>
+                                                                )}
+                                                            />
+                                                            <FormField
+                                                                control={form.control}
+                                                                name="emailAddress"
+                                                                render={({ field }) => (
+                                                                    <FormItem className="grow">
+                                                                        <FormLabel>Email Address</FormLabel>
+                                                                        <FormControl>
+                                                                            <Input
+                                                                                placeholder="you@example.com"
+                                                                                {...field}
+                                                                                onChange={(e) => {
+                                                                                    field.onChange(e)
+                                                                                    handleInputChange("emailAddress", e.target.value)
+                                                                                }}
+                                                                            />
+                                                                        </FormControl>
+                                                                    </FormItem>
+                                                                )}
+                                                            />
+                                                        </div>
                                                         <FormField
                                                             control={form.control}
                                                             name="address"
@@ -752,7 +779,7 @@ function Builder() {
                                                                             )}
                                                                         />
                                                                     </div>
-                                                                    <div className="grow">
+                                                                    {/* <div className="grow">
                                                                         <FormField
                                                                             name={`skills[${index}].skillRating`}
                                                                             render={({ field }) => (
@@ -769,7 +796,7 @@ function Builder() {
                                                                                 </FormItem>
                                                                             )}
                                                                         />
-                                                                    </div>
+                                                                    </div> */}
                                                                     <Button
                                                                         type="button"
                                                                         variant="destructive"
@@ -802,7 +829,7 @@ function Builder() {
                                                     </CardContent>
                                                 </Card>
 
-                                                <Button type="submit">Submit</Button>
+                                                {/* <Button type="submit">Submit</Button> */}
                                             </form>
                                         </Form>
                                         {templateId === "professional" && <Professional imagePreview={imagePreview} />}
