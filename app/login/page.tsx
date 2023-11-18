@@ -4,6 +4,7 @@ import { UserAuthForm } from "@/components/UserAuthFormProps"
 import { UserAuth } from "@/context/AuthContext"
 import { useEffect, useState } from "react"
 import { redirect } from "next/navigation"
+import { Badge } from "@/components/ui/badge"
 
 export default function Login() {
     const { user } = UserAuth()
@@ -37,7 +38,7 @@ export default function Login() {
                     <div className="absolute inset-0 bg-slate-950 login" />
                     <div className="relative z-20 flex items-center text-lg font-extrabold">
                         <Link href="/" className="cursor">
-                            CValley.io
+                            CValley <Badge className="text-slate-950 hover:text-slate-950 bg-white hover:bg-white ml-1 cursor-default">Beta</Badge>
                         </Link>
                     </div>
                     <div className="relative z-20 mt-auto">
