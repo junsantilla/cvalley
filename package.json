@@ -42,5 +42,8 @@
     "use-local-storage": "^3.0.0",
     "uuidv4": "^6.2.13",
     "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "encoding": "^0.1.13"
   }
 }
