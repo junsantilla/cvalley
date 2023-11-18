@@ -163,8 +163,6 @@ function Builder() {
         })
     }
 
-    console.log(data)
-
     async function generatePDFfromHTML(htmlContentId: string, outputPath: string) {
         const doc = new jsPDF()
 

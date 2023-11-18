@@ -9,8 +9,8 @@ const Professional: React.FC<ProfessionalProps> = ({ imagePreview }) => {
     const [data, setData] = useState<any>(null)
 
     const updateData = () => {
-        // Check if localStorage is available
-        if (typeof localStorage !== "undefined") {
+        // Check if window and localStorage are available
+        if (typeof window !== "undefined" && typeof window.localStorage !== "undefined") {
             // Fetch data from local storage
             const storedData = localStorage.getItem("data")
 
@@ -23,6 +23,23 @@ const Professional: React.FC<ProfessionalProps> = ({ imagePreview }) => {
             console.error("localStorage is not available in this environment.")
         }
     }
+
+    useEffect(() => {
+        // Fetch initial data from local storage
+        updateData()
+
+        // Add event listener for the storage event
+        if (typeof window !== "undefined") {
+            window.addEventListener("storage", updateData)
+        }
+
+        // Cleanup the event listener on component unmount
+        return () => {
+            if (typeof window !== "undefined") {
+                window.removeEventListener("storage", updateData)
+            }
+        }
+    }, [])
 
     useEffect(() => {
         // Fetch initial data from local storage
