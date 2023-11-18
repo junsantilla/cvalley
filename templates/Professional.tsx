@@ -156,4 +156,3 @@ const Professional: React.FC<ProfessionalProps> = ({ imagePreview }) => {
 }
 
 export default Professional
-3
