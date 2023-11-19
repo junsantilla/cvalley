@@ -48,7 +48,11 @@ const Professional: React.FC<ProfessionalProps> = ({ imagePreview }) => {
         }
 
         // Check if the object has any non-empty string values
-        return Object.values(obj).some((field: any) => field && typeof field === "string" && field.trim() !== "")
+        if (typeof obj === "object") {
+            return Object.values(obj).some((field: any) => field && typeof field === "string" && field.trim() !== "")
+        }
+
+        return false
     }
 
     if (!data) {
