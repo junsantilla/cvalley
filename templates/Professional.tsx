@@ -54,6 +54,8 @@ const Professional: React.FC<ProfessionalProps> = ({ imagePreview }) => {
         }
     }, []) // The empty dependency array ensures this effect runs only once on component mount
 
+    const isObjectNotEmpty = (obj: any): boolean => Object.values(obj).some((field: any) => field && typeof field === "string" && field.trim() !== "")
+
     if (!data) {
         // Handle the case where data is not available yet
         return <div>Loading...</div>
@@ -78,11 +80,12 @@ const Professional: React.FC<ProfessionalProps> = ({ imagePreview }) => {
                         <p>{data.address}</p>
                     </div>
 
-                    {data.skills && (
+                    {/* Skills  */}
+                    {data.skills && data.skills.some(isObjectNotEmpty) && (
                         <>
                             <h2 className="font-bold text-lg mb-3 ">Skills:</h2>
                             <ul className="grid gap-2">
-                                {data.skills?.map((skill: any, index: number) => (
+                                {data.skills.map((skill: any, index: number) => (
                                     <li key={index}>{skill.skillTitle}</li>
                                 ))}
                             </ul>
@@ -92,8 +95,8 @@ const Professional: React.FC<ProfessionalProps> = ({ imagePreview }) => {
 
                 {/* Main content  */}
                 <div className="grow bg-white text-slate-900 p-10 overflow-hidden">
-                    {/* Profile  */}
-                    {data.objective && (
+                    {/* Profile */}
+                    {isObjectNotEmpty(data.objective) && (
                         <div className="profile mb-8">
                             <h2 className="font-extrabold text-lg mb-3">
                                 <span>█ </span>Profile:
@@ -102,42 +105,39 @@ const Professional: React.FC<ProfessionalProps> = ({ imagePreview }) => {
                         </div>
                     )}
 
-                    {/* Employment  */}
-                    {data.employment && (
+                    {/* Employment */}
+                    {data.employment && data.employment.some(isObjectNotEmpty) && (
                         <div className="employment mb-8">
                             <h2 className="font-extrabold text-lg mb-4">
                                 <span>█ </span>Employment History:
                             </h2>
                             <ul>
-                                {data.employment?.map((job: any, index: number) => (
-                                    <div className="mb-4">
-                                        <li key={index}>
-                                            <p className="font-bold">
-                                                <p className="text-lg">{job.jobTitle}</p>
-                                                <p className="text-xs">
-                                                    {job.companyName}, {job.city}
-                                                </p>
+                                {data.employment.map((job: any, index: number) => (
+                                    <li key={index} className="mb-4">
+                                        <p className="font-bold">
+                                            <p className="text-lg">{job.jobTitle}</p>
+                                            <p className="text-xs">
+                                                {job.companyName}, {job.city}
                                             </p>
-
-                                            <p className="text-xs py-1 spa  text-slate-600 uppercase font-bold">
-                                                {job.startYear} - {job.endYear}
-                                            </p>
-                                            <p>{job.description}</p>
-                                        </li>
-                                    </div>
+                                        </p>
+                                        <p className="text-xs py-1 spa text-slate-600 uppercase font-bold">
+                                            {job.startYear} - {job.endYear}
+                                        </p>
+                                        <p>{job.description}</p>
+                                    </li>
                                 ))}
                             </ul>
                         </div>
                     )}
 
                     {/* Education  */}
-                    {data.education && (
+                    {data.education && data.education.some(isObjectNotEmpty) && (
                         <div className="education mb-8">
                             <h2 className="font-extrabold text-lg mb-4">
                                 <span>█ </span>Education:
                             </h2>
                             <ul>
-                                {data.education?.map((school: any, index: number) => (
+                                {data.education.map((school: any, index: number) => (
                                     <li key={index}>
                                         <div className="mb-4">
                                             <li key={index}>
