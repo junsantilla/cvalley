@@ -4,7 +4,7 @@ import { MainNav } from "@/components/MainNav"
 import { UserNav } from "@/components/UserNav"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { BiFileFind, BiRightArrow } from "react-icons/bi"
+import { BiRightArrow } from "react-icons/bi"
 
 const features = [
     {
@@ -47,7 +47,7 @@ const whyChoose = [
 export default function Home() {
     return (
         <>
-            <div className="hidden flex-col md:flex">
+            <div className="flex-col md:flex">
                 <div className="text-slate-200 bg-slate-950">
                     <div className="flex h-16 items-center px-4 mx-4">
                         <MainNav />
@@ -58,11 +58,11 @@ export default function Home() {
                 </div>
             </div>
 
-            <section className="hero text-slate-200 w-full text-center py-40 md:py-60 ">
+            <section className="hero text-slate-200 w-full text-center py-20 md:py-60 ">
                 <p className="text-3xl md:text-5xl mb-6">
                     👋 Welcome to <span className="font-bold">CValley</span>
                 </p>
-                <div className="text-2xl flex flex-col">
+                <div className="text-xl md:text-2xl flex flex-col">
                     <p className="max-w-screen-2xl self-center px-10 md:px-28">
                         Our platform is designed to make the resume-building process easy, efficient, and free. Whether you're a recent graduate entering the job market or an experienced professional looking to update your CV, CValley has got you covered.
                     </p>
@@ -79,8 +79,8 @@ export default function Home() {
             {/* Features */}
             <section className="w-full py-24 bg-slate-900">
                 <div className="flex justify-center">
-                    <div className="px-20">
-                        <h2 className="text-4xl text-center text-white mb-8">
+                    <div className="px-10 md:px-20">
+                        <h2 className="text-2xl md:text-4xl text-center text-white mb-8">
                             🚀 Key <span className="font-bold">Features</span>
                         </h2>
                         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -98,11 +98,11 @@ export default function Home() {
             {/*Why Choose CValley */}
             <section className="w-full py-24 bg-slate-200">
                 <div className="flex justify-center">
-                    <div className="max-w-screen-lg">
-                        <h2 className="text-4xl text-center mb-8">
+                    <div className="px-10 md:px-20 max-w-screen-lg">
+                        <h2 className="text-2xl md:text-4xl text-center mb-8">
                             🤝 Why <span className="font-bold">Choose CValley</span>
                         </h2>
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="grid md:grid-cols-2 gap-4">
                             {whyChoose.map((item, index) => (
                                 <div key={index} className="p-6 bg-slate-900 text-slate-300">
                                     <h3 className="font-bold">{item.title}</h3>
@@ -118,7 +118,7 @@ export default function Home() {
             <section className="sign w-full py-24 bg-slate-900 text-white">
                 <div className="flex justify-center">
                     <div className="max-w-screen-lg text-center px-10">
-                        <h2 className="font-bold text-4xl mb-8">🎉 Get Started Today!</h2>
+                        <h2 className="font-bold text-2xl md:text-4xl mb-8">🎉 Get Started Today!</h2>
                         <p className="text-lg mb-8">
                             Ready to take the first step toward a promising career? Create your free account on CValley now and start building the resume that will open doors to your future. Join thousands of satisfied users who have already benefited from our platform.
                         </p>
