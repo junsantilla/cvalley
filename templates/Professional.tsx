@@ -41,19 +41,6 @@ const Professional: React.FC<ProfessionalProps> = ({ imagePreview }) => {
         }
     }, [])
 
-    useEffect(() => {
-        // Fetch initial data from local storage
-        updateData()
-
-        // Add event listener for the storage event
-        window.addEventListener("storage", updateData)
-
-        // Cleanup the event listener on component unmount
-        return () => {
-            window.removeEventListener("storage", updateData)
-        }
-    }, []) // The empty dependency array ensures this effect runs only once on component mount
-
     const isObjectNotEmpty = (obj: any): boolean => Object.values(obj).some((field: any) => field && typeof field === "string" && field.trim() !== "")
 
     if (!data) {
