@@ -41,11 +41,24 @@ const Professional: React.FC<ProfessionalProps> = ({ imagePreview }) => {
         }
     }, [])
 
-    const isObjectNotEmpty = (obj: any): boolean => Object.values(obj).some((field: any) => field && typeof field === "string" && field.trim() !== "")
+    const isObjectNotEmpty = (obj: any): boolean => {
+        // Check if the object is defined and not null
+        if (obj === undefined || obj === null) {
+            return false
+        }
+
+        // Check if the object has any non-empty string values
+        return Object.values(obj).some((field: any) => field && typeof field === "string" && field.trim() !== "")
+    }
 
     if (!data) {
         // Handle the case where data is not available yet
-        return <div>Loading...</div>
+        return (
+            <div className="p-8">
+                <p className="font-bold text-lg">Welcome to our CV Builder!</p>
+                <p>Please start by typing your information.</p>
+            </div>
+        )
     }
 
     return (
