@@ -8,7 +8,7 @@ export function MainNav() {
                 // href="/dashboard"
                 className="text-lg font-extrabold transition-colors hover:text-primary"
             >
-                CValley <Badge className="text-slate-950 hover:text-slate-950 bg-white hover:bg-white ml-1 cursor-default">Beta</Badge>
+                <Link href="/">CValley</Link> <Badge className="text-slate-950 hover:text-slate-950 bg-white hover:bg-white ml-1 cursor-default">Beta</Badge>
             </div>
             {/* <Link
 				href="/dashboard"

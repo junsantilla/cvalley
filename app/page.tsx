@@ -1,5 +1,6 @@
 "use client"
 
+import Footer from "@/components/Footer"
 import { MainNav } from "@/components/MainNav"
 import { UserNav } from "@/components/UserNav"
 import { Button } from "@/components/ui/button"
@@ -68,7 +69,7 @@ export default function Home() {
                     </p>
                 </div>
                 <div className="flex gap-3 justify-center">
-                    <Link href="/login" target="_blank">
+                    <Link href="/login">
                         <Button type="button" className="mt-8  uppercase">
                             <BiRightArrow className="mr-1 text-lg" /> Sign Up Now For Free
                         </Button>
@@ -135,11 +136,7 @@ export default function Home() {
             </section>
 
             {/* Footer */}
-            <footer className="flex justify-center bg-slate-900 text-white py-12 text-center">
-                <p>
-                    <strong>Disclaimer:</strong> CValley is a free resume-building platform. We do not guarantee job placement or success in your job search.
-                </p>
-            </footer>
+            <Footer />
         </>
     )
 }
