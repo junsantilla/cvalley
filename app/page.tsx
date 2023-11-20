@@ -1,11 +1,13 @@
-"use client"
-
-import Footer from "@/components/Footer"
-import { MainNav } from "@/components/MainNav"
-import { UserNav } from "@/components/UserNav"
+import Layout from "@/components/Layout"
+import type { Metadata } from "next"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { BiRightArrow } from "react-icons/bi"
+
+export const metadata: Metadata = {
+    title: "CValley - Build Your Resume for Free",
+    description: "Welcome to CValley - the free and easy-to-use platform for building professional resumes. Create, download, and share your resume with our user-friendly interface. Your path to professional success starts here!",
+}
 
 const features = [
     {
@@ -45,98 +47,88 @@ const whyChoose = [
     },
 ]
 
-export default function Home() {
+function page() {
     return (
-        <>
-            <div className="flex-col md:flex">
-                <div className="text-slate-200 bg-slate-950">
-                    <div className="flex h-16 items-center px-4 mx-4">
-                        <MainNav />
-                        <div className="ml-auto flex items-center space-x-4">
-                            <UserNav />
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <section className="hero text-slate-200 w-full text-center py-20 md:py-60 ">
-                <p className="text-3xl md:text-5xl mb-6">
-                    👋 Welcome to <span className="font-bold">CValley</span>
-                </p>
-                <div className="text-xl md:text-2xl flex flex-col">
-                    <p className="max-w-screen-2xl self-center px-10 md:px-28">
-                        Our platform is designed to make the resume-building process easy, efficient, and free. Whether you're a recent graduate entering the job market or an experienced professional looking to update your CV, CValley has got you covered.
+        <Layout>
+            <main>
+                <section className="hero text-slate-200 w-full text-center py-20 md:py-60 ">
+                    <p className="text-3xl md:text-5xl mb-6">
+                        👋 Welcome to <span className="font-bold">CValley</span>
                     </p>
-                </div>
-                <div className="flex gap-3 justify-center">
-                    <Link href="/login">
-                        <Button type="button" className="mt-8  uppercase">
-                            <BiRightArrow className="mr-1 text-lg" /> Sign Up Now For Free
-                        </Button>
-                    </Link>
-                </div>
-            </section>
-
-            {/* Features */}
-            <section className="w-full py-24 bg-slate-900">
-                <div className="flex justify-center">
-                    <div className="px-10 md:px-20">
-                        <h2 className="text-2xl md:text-4xl text-center text-white mb-8">
-                            🚀 Key <span className="font-bold">Features</span>
-                        </h2>
-                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                            {features.map((feature, index) => (
-                                <div key={index} className="p-6 bg-slate-950 text-slate-300">
-                                    <h3 className="font-bold">{feature.title}</h3>
-                                    <p>{feature.description}</p>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/*Why Choose CValley */}
-            <section className="w-full py-24 bg-slate-200">
-                <div className="flex justify-center">
-                    <div className="px-10 md:px-20 max-w-screen-lg">
-                        <h2 className="text-2xl md:text-4xl text-center mb-8">
-                            🤝 Why <span className="font-bold">Choose CValley</span>
-                        </h2>
-                        <div className="grid md:grid-cols-2 gap-4">
-                            {whyChoose.map((item, index) => (
-                                <div key={index} className="p-6 bg-slate-900 text-slate-300">
-                                    <h3 className="font-bold">{item.title}</h3>
-                                    <p>{item.description}</p>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Get Started Today! */}
-            <section className="sign w-full py-24 bg-slate-900 text-white">
-                <div className="flex justify-center">
-                    <div className="max-w-screen-lg text-center px-10">
-                        <h2 className="font-bold text-2xl md:text-4xl mb-8">🎉 Get Started Today!</h2>
-                        <p className="text-lg mb-8">
-                            Ready to take the first step toward a promising career? Create your free account on CValley now and start building the resume that will open doors to your future. Join thousands of satisfied users who have already benefited from our platform.
+                    <div className="text-xl md:text-2xl flex flex-col">
+                        <p className="max-w-screen-2xl self-center px-10 md:px-28">
+                            Our platform is designed to make the resume-building process easy, efficient, and free. Whether you're a recent graduate entering the job market or an experienced professional looking to update your CV, CValley has got you covered.
                         </p>
-                        <p className="text-lg">
-                            <span className="font-bold">CValley - Your Path to Professional Success.</span>{" "}
-                        </p>
+                    </div>
+                    <div className="flex gap-3 justify-center">
                         <Link href="/login">
-                            <Button variant="outline" type="button" className="mt-8  uppercase text-slate-900 ">
-                                <BiRightArrow className="mr-1 text-lg" /> Sign Up Now
+                            <Button type="button" className="mt-8  uppercase">
+                                <BiRightArrow className="mr-1 text-lg" /> Sign Up Now For Free
                             </Button>
                         </Link>
                     </div>
-                </div>
-            </section>
+                </section>
 
-            {/* Footer */}
-            <Footer />
-        </>
+                {/* Features */}
+                <section className="w-full py-24 bg-slate-900">
+                    <div className="flex justify-center">
+                        <div className="px-10 md:px-20">
+                            <h2 className="text-2xl md:text-4xl text-center text-white mb-8">
+                                🚀 Key <span className="font-bold">Features</span>
+                            </h2>
+                            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                                {features.map((feature, index) => (
+                                    <div key={index} className="p-6 bg-slate-950 text-slate-300">
+                                        <h3 className="font-bold">{feature.title}</h3>
+                                        <p>{feature.description}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/*Why Choose CValley */}
+                <section className="w-full py-24 bg-slate-200">
+                    <div className="flex justify-center">
+                        <div className="px-10 md:px-20 max-w-screen-lg">
+                            <h2 className="text-2xl md:text-4xl text-center mb-8">
+                                🤝 Why <span className="font-bold">Choose CValley</span>
+                            </h2>
+                            <div className="grid md:grid-cols-2 gap-4">
+                                {whyChoose.map((item, index) => (
+                                    <div key={index} className="p-6 bg-slate-900 text-slate-300">
+                                        <h3 className="font-bold">{item.title}</h3>
+                                        <p>{item.description}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Get Started Today! */}
+                <section className="sign w-full py-24 bg-slate-900 text-white">
+                    <div className="flex justify-center">
+                        <div className="max-w-screen-lg text-center px-10">
+                            <h2 className="font-bold text-2xl md:text-4xl mb-8">🎉 Get Started Today!</h2>
+                            <p className="text-lg mb-8">
+                                Ready to take the first step toward a promising career? Create your free account on CValley now and start building the resume that will open doors to your future. Join thousands of satisfied users who have already benefited from our platform.
+                            </p>
+                            <p className="text-lg">
+                                <span className="font-bold">CValley - Your Path to Professional Success.</span>{" "}
+                            </p>
+                            <Link href="/login">
+                                <Button variant="outline" type="button" className="mt-8  uppercase text-slate-900 ">
+                                    <BiRightArrow className="mr-1 text-lg" /> Sign Up Now
+                                </Button>
+                            </Link>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </Layout>
     )
 }
+
+export default page
