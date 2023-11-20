@@ -87,7 +87,7 @@ const AddDummyDataButton: React.FC<AddDummyDataButtonProps> = ({ onDataAdd }) =>
     }
 
     return (
-        <Button type="button" onClick={handleAddDummyData} className="text-xs">
+        <Button type="button" onClick={handleAddDummyData}>
             <BiDetail className="mr-1" />
             Add Sample Data
         </Button>
