@@ -41,6 +41,25 @@ const Professional: React.FC<ProfessionalProps> = ({ imagePreview }) => {
         }
     }, [])
 
+    useEffect(() => {
+        const a4Container = document.getElementById("a4-container") as HTMLElement | null
+        const a4Div = document.getElementById("element-to-capture") as HTMLElement | null
+
+        if (a4Container && a4Div) {
+            const containerHeight: number = parseFloat(getComputedStyle(a4Container).height)
+            const divHeight: number = parseFloat(getComputedStyle(a4Div).height)
+
+            console.log("Container height:", containerHeight)
+            console.log("Div computed height:", divHeight)
+
+            if (divHeight - 20 > containerHeight) {
+                alert("Warning: Your data may overflow. Our app can render 1 page only at the moment.")
+            }
+        } else {
+            console.error("Element with id 'a4-container' or 'element-to-capture' not found.")
+        }
+    }, [data])
+
     const isObjectNotEmpty = (obj: any): boolean => {
         // Check if the object is defined and not null
         if (obj === undefined || obj === null) {
@@ -68,101 +87,103 @@ const Professional: React.FC<ProfessionalProps> = ({ imagePreview }) => {
     return (
         <div className="w-full flex justify-center p-8 bg-slate-100">
             {/* Template */}
-            <div className="flex a4 bg-slate-200  h-full text-sm" id="element-to-capture">
-                {/* Sidebar  */}
-                <div className="sidebar font-medium bg-slate-900 text-slate-200 p-10">
-                    <div className="flex flex-col justify-center gap-2 mb-8">
-                        {imagePreview && (
-                            <Avatar className=" w-32 h-32 mb-1 shadow-md">
-                                <AvatarImage src={imagePreview} alt="Profile Image" className="object-cover" />
-                            </Avatar>
+            <div className="a4-container" id="a4-container">
+                <div className="flex a4 bg-slate-200  h-full text-sm" id="element-to-capture">
+                    {/* Sidebar  */}
+                    <div className="sidebar font-medium bg-slate-900 text-slate-200 p-10">
+                        <div className="flex flex-col justify-center gap-2 mb-8">
+                            {imagePreview && (
+                                <Avatar className=" w-32 h-32 mb-1 shadow-md">
+                                    <AvatarImage src={imagePreview} alt="Profile Image" className="object-cover" />
+                                </Avatar>
+                            )}
+                            <p className="font-extrabold text-xl">{data.fullName}</p>
+                            <p className="font-bold">{data.jobTitle}</p>
+                            <p>{data.phoneNumber}</p>
+                            <p>{data.emailAddress}</p>
+                            <p>{data.address}</p>
+                        </div>
+
+                        {/* Skills  */}
+                        {data.skills && data.skills.some(isObjectNotEmpty) && (
+                            <>
+                                <h2 className="font-bold text-lg mb-3 ">Skills:</h2>
+                                <ul className="grid gap-2">
+                                    {data.skills.map((skill: any, index: number) => (
+                                        <li key={index}>{skill.skillTitle}</li>
+                                    ))}
+                                </ul>
+                            </>
                         )}
-                        <p className="font-extrabold text-xl">{data.fullName}</p>
-                        <p className="font-bold">{data.jobTitle}</p>
-                        <p>{data.phoneNumber}</p>
-                        <p>{data.emailAddress}</p>
-                        <p>{data.address}</p>
                     </div>
 
-                    {/* Skills  */}
-                    {data.skills && data.skills.some(isObjectNotEmpty) && (
-                        <>
-                            <h2 className="font-bold text-lg mb-3 ">Skills:</h2>
-                            <ul className="grid gap-2">
-                                {data.skills.map((skill: any, index: number) => (
-                                    <li key={index}>{skill.skillTitle}</li>
-                                ))}
-                            </ul>
-                        </>
-                    )}
-                </div>
+                    {/* Main content  */}
+                    <div className="grow bg-white text-slate-900 p-10 overflow-hidden">
+                        {/* Profile */}
+                        {data.objective && (
+                            <div className="profile mb-8">
+                                <h2 className="font-extrabold text-lg mb-3">
+                                    <span>█ </span>Profile:
+                                </h2>
+                                <p>{data.objective}</p>
+                            </div>
+                        )}
 
-                {/* Main content  */}
-                <div className="grow bg-white text-slate-900 p-10 overflow-hidden">
-                    {/* Profile */}
-                    {isObjectNotEmpty(data.objective) && (
-                        <div className="profile mb-8">
-                            <h2 className="font-extrabold text-lg mb-3">
-                                <span>█ </span>Profile:
-                            </h2>
-                            <p>{data.objective}</p>
-                        </div>
-                    )}
-
-                    {/* Employment */}
-                    {data.employment && data.employment.some(isObjectNotEmpty) && (
-                        <div className="employment mb-8">
-                            <h2 className="font-extrabold text-lg mb-4">
-                                <span>█ </span>Employment History:
-                            </h2>
-                            <ul>
-                                {data.employment.map((job: any, index: number) => (
-                                    <li key={index} className="mb-4">
-                                        <p className="font-bold">
-                                            <p className="text-lg">{job.jobTitle}</p>
-                                            <p className="text-xs">
-                                                {job.companyName}, {job.city}
+                        {/* Employment */}
+                        {data.employment && data.employment.some(isObjectNotEmpty) && (
+                            <div className="employment mb-8">
+                                <h2 className="font-extrabold text-lg mb-4">
+                                    <span>█ </span>Employment History:
+                                </h2>
+                                <ul>
+                                    {data.employment.map((job: any, index: number) => (
+                                        <li key={index} className="mb-4">
+                                            <p className="font-bold">
+                                                <p className="text-lg">{job.jobTitle}</p>
+                                                <p className="text-xs">
+                                                    {job.companyName}, {job.city}
+                                                </p>
                                             </p>
-                                        </p>
-                                        <p className="text-xs py-1 spa text-slate-600 uppercase font-bold">
-                                            {job.startYear} - {job.endYear}
-                                        </p>
-                                        <p>{job.description}</p>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    )}
+                                            <p className="text-xs py-1 spa text-slate-600 uppercase font-bold">
+                                                {job.startYear} - {job.endYear}
+                                            </p>
+                                            <p>{job.description}</p>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
 
-                    {/* Education  */}
-                    {data.education && data.education.some(isObjectNotEmpty) && (
-                        <div className="education mb-8">
-                            <h2 className="font-extrabold text-lg mb-4">
-                                <span>█ </span>Education:
-                            </h2>
-                            <ul>
-                                {data.education.map((school: any, index: number) => (
-                                    <li key={index}>
-                                        <div className="mb-4">
-                                            <li key={index}>
-                                                <p className="font-bold">
-                                                    <p className="text-lg">{school.schoolName}</p>
-                                                    <p className="text-xs">
-                                                        {school.degree}, {school.fieldOfStudy}
+                        {/* Education  */}
+                        {data.education && data.education.some(isObjectNotEmpty) && (
+                            <div className="education mb-8">
+                                <h2 className="font-extrabold text-lg mb-4">
+                                    <span>█ </span>Education:
+                                </h2>
+                                <ul>
+                                    {data.education.map((school: any, index: number) => (
+                                        <li key={index}>
+                                            <div className="mb-4">
+                                                <li key={index}>
+                                                    <p className="font-bold">
+                                                        <p className="text-lg">{school.schoolName}</p>
+                                                        <p className="text-xs">
+                                                            {school.degree}, {school.fieldOfStudy}
+                                                        </p>
                                                     </p>
-                                                </p>
 
-                                                <p className="font-xs text-xs py-1 spa tracking-widest  text-slate-500 uppercase font-semibold">
-                                                    {school.startYear} - {school.endYear}
-                                                </p>
-                                                <p>{school.description}</p>
-                                            </li>
-                                        </div>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    )}
+                                                    <p className="font-xs text-xs py-1 spa tracking-widest  text-slate-500 uppercase font-semibold">
+                                                        {school.startYear} - {school.endYear}
+                                                    </p>
+                                                    <p>{school.description}</p>
+                                                </li>
+                                            </div>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>
