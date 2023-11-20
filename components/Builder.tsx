@@ -16,6 +16,8 @@ import Professional from "@/templates/Professional"
 import useLocalStorage from "use-local-storage"
 import html2canvas from "html2canvas"
 import jsPDF from "jspdf"
+import AddDummyDataButton from "./AddDummyDataButton"
+import ClearDataButton from "./ClearDataButton"
 
 // Form schema
 const formSchema = z.object({
@@ -195,6 +197,14 @@ function Builder() {
     // Usage
     const htmlContentId = "element-to-capture" // Replace with your actual element ID
 
+    const handleDataChange = (newData: any) => {
+        setData(newData)
+    }
+
+    const handleClearData = () => {
+        setData("")
+    }
+
     return (
         <section className="pb-10 flex flex-col ">
             <div className="flex justify-center mb-6">
@@ -233,101 +243,145 @@ function Builder() {
 
                                 <TabsContent value="account">
                                     <div className="flex -my-8 -mb-16 ">
-                                        <Form {...form}>
-                                            <form onSubmit={form.handleSubmit(onSubmit)} className="cvForm space-y-8 overflow-auto no-scrollbar p-8 bg-slate-200">
-                                                {/* Personal Information */}
-                                                <Card className=" bg-slate-100  ">
-                                                    <CardHeader>
-                                                        <CardTitle className="text-lg font-bold">
-                                                            <BiUser className="text-xl mb-1 mr-2 inline" />
-                                                            Personal Information
-                                                        </CardTitle>
-                                                        <CardDescription>Fill in all required details below</CardDescription>
-                                                    </CardHeader>
-                                                    <CardContent className="grid gap-4">
-                                                        <FormField
-                                                            control={form.control}
-                                                            name="image"
-                                                            render={({ field }) => (
-                                                                <FormItem>
-                                                                    <FormLabel>Upload Image</FormLabel>
-                                                                    <FormControl>
-                                                                        <Input
-                                                                            type="file"
-                                                                            onChange={(e) => {
-                                                                                field.onChange(e)
-                                                                                handleInputChange("image", e.target.value)
-                                                                                // Image preview logic
-                                                                                const reader = new FileReader()
-                                                                                reader.onloadend = () => {
-                                                                                    setImagePreview(reader.result as string)
-                                                                                }
-                                                                                if (e.target.files && e.target.files[0]) {
-                                                                                    reader.readAsDataURL(e.target.files[0])
-                                                                                }
-                                                                            }}
-                                                                        />
-                                                                    </FormControl>
-                                                                </FormItem>
-                                                            )}
-                                                        />
+                                        <div className="flex flex-col">
+                                            <Form {...form}>
+                                                <form className="cvForm space-y-8 overflow-auto no-scrollbar p-8 bg-slate-200">
+                                                    <div className="flex justify-end gap-3">
+                                                        <ClearDataButton onClearData={handleClearData} />
+                                                        <AddDummyDataButton onDataAdd={handleDataChange} />
+                                                    </div>
+                                                    {/* Personal Information */}
+                                                    <Card className=" bg-slate-100  ">
+                                                        <CardHeader>
+                                                            <CardTitle className="text-lg font-bold">
+                                                                <BiUser className="text-xl mb-1 mr-2 inline" />
+                                                                Personal Information
+                                                            </CardTitle>
+                                                            <CardDescription>Fill in all required details below</CardDescription>
+                                                        </CardHeader>
+                                                        <CardContent className="grid gap-4">
+                                                            <FormField
+                                                                control={form.control}
+                                                                name="image"
+                                                                render={({ field }) => (
+                                                                    <FormItem>
+                                                                        <FormLabel>Upload Image</FormLabel>
+                                                                        <FormControl>
+                                                                            <Input
+                                                                                type="file"
+                                                                                onChange={(e) => {
+                                                                                    field.onChange(e)
+                                                                                    handleInputChange("image", e.target.value)
+                                                                                    // Image preview logic
+                                                                                    const reader = new FileReader()
+                                                                                    reader.onloadend = () => {
+                                                                                        setImagePreview(reader.result as string)
+                                                                                    }
+                                                                                    if (e.target.files && e.target.files[0]) {
+                                                                                        reader.readAsDataURL(e.target.files[0])
+                                                                                    }
+                                                                                }}
+                                                                            />
+                                                                        </FormControl>
+                                                                    </FormItem>
+                                                                )}
+                                                            />
 
-                                                        <div className="flex gap-4">
-                                                            {" "}
-                                                            <FormField
-                                                                control={form.control}
-                                                                name="fullName"
-                                                                render={({ field }) => (
-                                                                    <FormItem className="grow">
-                                                                        <FormLabel>Full Name</FormLabel>
-                                                                        <FormControl>
-                                                                            <Input
-                                                                                placeholder="John Doe"
-                                                                                {...field}
-                                                                                onChange={(e) => {
-                                                                                    field.onChange(e)
-                                                                                    handleInputChange("fullName", e.target.value)
-                                                                                }}
-                                                                            />
-                                                                        </FormControl>
-                                                                    </FormItem>
-                                                                )}
-                                                            />
-                                                            <FormField
-                                                                control={form.control}
-                                                                name="jobTitle"
-                                                                render={({ field }) => (
-                                                                    <FormItem className="grow">
-                                                                        <FormLabel>Job Title</FormLabel>
-                                                                        <FormControl>
-                                                                            <Input
-                                                                                placeholder="Web Developer"
-                                                                                {...field}
-                                                                                onChange={(e) => {
-                                                                                    field.onChange(e)
-                                                                                    handleInputChange("jobTitle", e.target.value)
-                                                                                }}
-                                                                            />
-                                                                        </FormControl>
-                                                                    </FormItem>
-                                                                )}
-                                                            />
-                                                        </div>
+                                                            <div className="flex gap-4">
+                                                                {" "}
+                                                                <FormField
+                                                                    control={form.control}
+                                                                    name="fullName"
+                                                                    render={({ field }) => (
+                                                                        <FormItem className="grow">
+                                                                            <FormLabel>Full Name</FormLabel>
+                                                                            <FormControl>
+                                                                                <Input
+                                                                                    placeholder="John Doe"
+                                                                                    {...field}
+                                                                                    onChange={(e) => {
+                                                                                        field.onChange(e)
+                                                                                        handleInputChange("fullName", e.target.value)
+                                                                                    }}
+                                                                                />
+                                                                            </FormControl>
+                                                                        </FormItem>
+                                                                    )}
+                                                                />
+                                                                <FormField
+                                                                    control={form.control}
+                                                                    name="jobTitle"
+                                                                    render={({ field }) => (
+                                                                        <FormItem className="grow">
+                                                                            <FormLabel>Job Title</FormLabel>
+                                                                            <FormControl>
+                                                                                <Input
+                                                                                    placeholder="Web Developer"
+                                                                                    {...field}
+                                                                                    onChange={(e) => {
+                                                                                        field.onChange(e)
+                                                                                        handleInputChange("jobTitle", e.target.value)
+                                                                                    }}
+                                                                                />
+                                                                            </FormControl>
+                                                                        </FormItem>
+                                                                    )}
+                                                                />
+                                                            </div>
 
-                                                        <div className="flex gap-4">
+                                                            <div className="flex gap-4">
+                                                                <FormField
+                                                                    control={form.control}
+                                                                    name="phoneNumber"
+                                                                    render={({ field }) => (
+                                                                        <FormItem className="grow">
+                                                                            <FormLabel>Phone Number</FormLabel>
+                                                                            <FormControl>
+                                                                                <Input
+                                                                                    placeholder="123-456-7890"
+                                                                                    {...field}
+                                                                                    onChange={(e) => {
+                                                                                        field.onChange(e)
+                                                                                        handleInputChange("phoneNumber", e.target.value)
+                                                                                    }}
+                                                                                />
+                                                                            </FormControl>
+                                                                        </FormItem>
+                                                                    )}
+                                                                />
+                                                                <FormField
+                                                                    control={form.control}
+                                                                    name="emailAddress"
+                                                                    render={({ field }) => (
+                                                                        <FormItem className="grow">
+                                                                            <FormLabel>Email Address</FormLabel>
+                                                                            <FormControl>
+                                                                                <Input
+                                                                                    placeholder="you@example.com"
+                                                                                    {...field}
+                                                                                    onChange={(e) => {
+                                                                                        field.onChange(e)
+                                                                                        handleInputChange("emailAddress", e.target.value)
+                                                                                    }}
+                                                                                />
+                                                                            </FormControl>
+                                                                        </FormItem>
+                                                                    )}
+                                                                />
+                                                            </div>
                                                             <FormField
                                                                 control={form.control}
-                                                                name="phoneNumber"
+                                                                name="address"
                                                                 render={({ field }) => (
-                                                                    <FormItem className="grow">
-                                                                        <FormLabel>Phone Number</FormLabel>
+                                                                    <FormItem>
+                                                                        <FormLabel>Mailing Address</FormLabel>
                                                                         <FormControl>
                                                                             <Input
-                                                                                placeholder="123-456-7890"
+                                                                                placeholder="123 Main St, City, Country"
                                                                                 {...field}
                                                                                 onChange={(e) => {
                                                                                     field.onChange(e)
-                                                                                    handleInputChange("phoneNumber", e.target.value)
+                                                                                    handleInputChange("address", e.target.value)
                                                                                 }}
                                                                             />
                                                                         </FormControl>
@@ -336,91 +390,225 @@ function Builder() {
                                                             />
                                                             <FormField
                                                                 control={form.control}
-                                                                name="emailAddress"
+                                                                name="objective"
                                                                 render={({ field }) => (
-                                                                    <FormItem className="grow">
-                                                                        <FormLabel>Email Address</FormLabel>
+                                                                    <FormItem>
+                                                                        <FormLabel>Objective</FormLabel>
                                                                         <FormControl>
-                                                                            <Input
-                                                                                placeholder="you@example.com"
+                                                                            <Textarea
+                                                                                placeholder="A brief summary of your career goals..."
                                                                                 {...field}
                                                                                 onChange={(e) => {
                                                                                     field.onChange(e)
-                                                                                    handleInputChange("emailAddress", e.target.value)
+                                                                                    handleInputChange("objective", e.target.value)
                                                                                 }}
                                                                             />
                                                                         </FormControl>
                                                                     </FormItem>
                                                                 )}
                                                             />
-                                                        </div>
-                                                        <FormField
-                                                            control={form.control}
-                                                            name="address"
-                                                            render={({ field }) => (
-                                                                <FormItem>
-                                                                    <FormLabel>Mailing Address</FormLabel>
-                                                                    <FormControl>
-                                                                        <Input
-                                                                            placeholder="123 Main St, City, Country"
-                                                                            {...field}
-                                                                            onChange={(e) => {
-                                                                                field.onChange(e)
-                                                                                handleInputChange("address", e.target.value)
-                                                                            }}
-                                                                        />
-                                                                    </FormControl>
-                                                                </FormItem>
-                                                            )}
-                                                        />
-                                                        <FormField
-                                                            control={form.control}
-                                                            name="objective"
-                                                            render={({ field }) => (
-                                                                <FormItem>
-                                                                    <FormLabel>Objective</FormLabel>
-                                                                    <FormControl>
-                                                                        <Textarea
-                                                                            placeholder="A brief summary of your career goals..."
-                                                                            {...field}
-                                                                            onChange={(e) => {
-                                                                                field.onChange(e)
-                                                                                handleInputChange("objective", e.target.value)
-                                                                            }}
-                                                                        />
-                                                                    </FormControl>
-                                                                </FormItem>
-                                                            )}
-                                                        />
-                                                    </CardContent>
-                                                </Card>
+                                                        </CardContent>
+                                                    </Card>
 
-                                                {/* Employment History */}
-                                                <Card className="bg-slate-100 ">
-                                                    <CardHeader>
-                                                        <CardTitle className="text-lg font-bold">
-                                                            <BiEdit className="text-xl mb-1 mr-2 inline" />
-                                                            Employment History
-                                                        </CardTitle>
-                                                        <CardDescription>Fill in all required details below</CardDescription>
-                                                    </CardHeader>
-                                                    <CardContent className="grid gap-4">
-                                                        {employmentFields &&
-                                                            employmentFields.map((employment, index) => (
-                                                                <div key={employment.id}>
+                                                    {/* Employment History */}
+                                                    <Card className="bg-slate-100 ">
+                                                        <CardHeader>
+                                                            <CardTitle className="text-lg font-bold">
+                                                                <BiEdit className="text-xl mb-1 mr-2 inline" />
+                                                                Employment History
+                                                            </CardTitle>
+                                                            <CardDescription>Fill in all required details below</CardDescription>
+                                                        </CardHeader>
+                                                        <CardContent className="grid gap-4">
+                                                            {employmentFields &&
+                                                                employmentFields.map((employment, index) => (
+                                                                    <div key={employment.id}>
+                                                                        <div className="grow mb-4">
+                                                                            <FormField
+                                                                                name={`employment[${index}].jobTitle`}
+                                                                                render={({ field }) => (
+                                                                                    <FormItem>
+                                                                                        <FormLabel>Job Title</FormLabel>
+                                                                                        <FormControl>
+                                                                                            <Input
+                                                                                                placeholder="Job Title"
+                                                                                                {...field}
+                                                                                                onChange={(e) => {
+                                                                                                    field.onChange(e)
+                                                                                                    handleNestedInputChange("employment", index, "jobTitle", e.target.value)
+                                                                                                }}
+                                                                                            />
+                                                                                        </FormControl>
+                                                                                    </FormItem>
+                                                                                )}
+                                                                            />
+                                                                        </div>
+                                                                        <div className="flex gap-3 mb-4">
+                                                                            <div className="grow">
+                                                                                <FormField
+                                                                                    name={`employment[${index}].companyName`}
+                                                                                    render={({ field }) => (
+                                                                                        <FormItem>
+                                                                                            <FormLabel>Company Name</FormLabel>
+                                                                                            <FormControl>
+                                                                                                <Input
+                                                                                                    placeholder="Company Name"
+                                                                                                    {...field}
+                                                                                                    onChange={(e) => {
+                                                                                                        field.onChange(e)
+                                                                                                        handleNestedInputChange("employment", index, "companyName", e.target.value)
+                                                                                                    }}
+                                                                                                />
+                                                                                            </FormControl>
+                                                                                        </FormItem>
+                                                                                    )}
+                                                                                />
+                                                                            </div>
+                                                                            <div className="grow">
+                                                                                <FormField
+                                                                                    name={`employment[${index}].city`}
+                                                                                    render={({ field }) => (
+                                                                                        <FormItem>
+                                                                                            <FormLabel>City</FormLabel>
+                                                                                            <FormControl>
+                                                                                                <Input
+                                                                                                    placeholder="City		"
+                                                                                                    {...field}
+                                                                                                    onChange={(e) => {
+                                                                                                        field.onChange(e)
+                                                                                                        handleNestedInputChange("employment", index, "city", e.target.value)
+                                                                                                    }}
+                                                                                                />
+                                                                                            </FormControl>
+                                                                                        </FormItem>
+                                                                                    )}
+                                                                                />
+                                                                            </div>
+                                                                        </div>
+                                                                        <div className="flex gap-3 grow mb-4">
+                                                                            <div className="grow">
+                                                                                <FormField
+                                                                                    name={`employment[${index}].startYear`}
+                                                                                    render={({ field }) => (
+                                                                                        <FormItem>
+                                                                                            <FormLabel>Start Year</FormLabel>
+                                                                                            <FormControl>
+                                                                                                <Input
+                                                                                                    placeholder="Start Year"
+                                                                                                    {...field}
+                                                                                                    onChange={(e) => {
+                                                                                                        field.onChange(e)
+                                                                                                        handleNestedInputChange("employment", index, "startYear", e.target.value)
+                                                                                                    }}
+                                                                                                />
+                                                                                            </FormControl>
+                                                                                        </FormItem>
+                                                                                    )}
+                                                                                />
+                                                                            </div>
+                                                                            <div className="grow">
+                                                                                <FormField
+                                                                                    name={`employment[${index}].endYear`}
+                                                                                    render={({ field }) => (
+                                                                                        <FormItem>
+                                                                                            <FormLabel>End Year</FormLabel>
+                                                                                            <FormControl>
+                                                                                                <Input
+                                                                                                    placeholder="End Year"
+                                                                                                    {...field}
+                                                                                                    onChange={(e) => {
+                                                                                                        field.onChange(e)
+                                                                                                        handleNestedInputChange("employment", index, "endYear", e.target.value)
+                                                                                                    }}
+                                                                                                />
+                                                                                            </FormControl>
+                                                                                        </FormItem>
+                                                                                    )}
+                                                                                />
+                                                                            </div>
+                                                                        </div>
+                                                                        <div className="grow mb-4">
+                                                                            <FormField
+                                                                                name={`employment[${index}].description`}
+                                                                                render={({ field }) => (
+                                                                                    <FormItem>
+                                                                                        <FormLabel>Description</FormLabel>
+                                                                                        <FormControl>
+                                                                                            <Textarea
+                                                                                                placeholder="Description"
+                                                                                                {...field}
+                                                                                                onChange={(e) => {
+                                                                                                    field.onChange(e)
+                                                                                                    handleNestedInputChange("employment", index, "description", e.target.value)
+                                                                                                }}
+                                                                                            />
+                                                                                        </FormControl>
+                                                                                    </FormItem>
+                                                                                )}
+                                                                            />
+                                                                        </div>
+                                                                        <Button
+                                                                            type="button"
+                                                                            variant="destructive"
+                                                                            className="w-full"
+                                                                            onClick={() => {
+                                                                                const newData = {
+                                                                                    ...data,
+                                                                                } as any
+                                                                                newData.employment.splice(index, 1)
+                                                                                setData(newData)
+
+                                                                                removeEmployment(index)
+                                                                            }}
+                                                                        >
+                                                                            <BiMinus className="mr-1" /> Remove Employment
+                                                                        </Button>
+                                                                    </div>
+                                                                ))}
+                                                            <Button
+                                                                type="button"
+                                                                onClick={() =>
+                                                                    appendEmployment({
+                                                                        jobTitle: "",
+                                                                        companyName: "",
+                                                                        city: "",
+                                                                        startYear: "",
+                                                                        endYear: "",
+                                                                        description: "",
+                                                                    })
+                                                                }
+                                                            >
+                                                                <BiPlus className="mr-1" /> Add Employment
+                                                            </Button>
+                                                        </CardContent>
+                                                    </Card>
+
+                                                    {/* Education */}
+                                                    <Card className=" bg-slate-100  ">
+                                                        <CardHeader>
+                                                            <CardTitle className="text-lg font-bold">
+                                                                <BiEdit className="text-xl mb-1 mr-2 inline" />
+                                                                Educations
+                                                            </CardTitle>
+                                                            <CardDescription>Fill in all required details below</CardDescription>
+                                                        </CardHeader>
+                                                        <CardContent className="grid gap-4">
+                                                            {educationFields.map((education, index) => (
+                                                                <div key={education.id}>
                                                                     <div className="grow mb-4">
                                                                         <FormField
-                                                                            name={`employment[${index}].jobTitle`}
+                                                                            name={`education[${index}].schoolName`}
+                                                                            key={education.id}
                                                                             render={({ field }) => (
                                                                                 <FormItem>
-                                                                                    <FormLabel>Job Title</FormLabel>
+                                                                                    <FormLabel>School Name</FormLabel>
                                                                                     <FormControl>
                                                                                         <Input
-                                                                                            placeholder="Job Title"
+                                                                                            placeholder="School Name"
                                                                                             {...field}
                                                                                             onChange={(e) => {
                                                                                                 field.onChange(e)
-                                                                                                handleNestedInputChange("employment", index, "jobTitle", e.target.value)
+                                                                                                handleNestedInputChange("education", index, "schoolName", e.target.value)
                                                                                             }}
                                                                                         />
                                                                                     </FormControl>
@@ -431,17 +619,17 @@ function Builder() {
                                                                     <div className="flex gap-3 mb-4">
                                                                         <div className="grow">
                                                                             <FormField
-                                                                                name={`employment[${index}].companyName`}
+                                                                                name={`education[${index}].degree`}
                                                                                 render={({ field }) => (
                                                                                     <FormItem>
-                                                                                        <FormLabel>Company Name</FormLabel>
+                                                                                        <FormLabel>Degree</FormLabel>
                                                                                         <FormControl>
                                                                                             <Input
-                                                                                                placeholder="Company Name"
+                                                                                                placeholder="Degree"
                                                                                                 {...field}
                                                                                                 onChange={(e) => {
                                                                                                     field.onChange(e)
-                                                                                                    handleNestedInputChange("employment", index, "companyName", e.target.value)
+                                                                                                    handleNestedInputChange("education", index, "degree", e.target.value)
                                                                                                 }}
                                                                                             />
                                                                                         </FormControl>
@@ -451,17 +639,17 @@ function Builder() {
                                                                         </div>
                                                                         <div className="grow">
                                                                             <FormField
-                                                                                name={`employment[${index}].city`}
+                                                                                name={`education[${index}].fieldOfStudy`}
                                                                                 render={({ field }) => (
                                                                                     <FormItem>
-                                                                                        <FormLabel>City</FormLabel>
+                                                                                        <FormLabel>Field of Study</FormLabel>
                                                                                         <FormControl>
                                                                                             <Input
-                                                                                                placeholder="City		"
+                                                                                                placeholder="Field of Study"
                                                                                                 {...field}
                                                                                                 onChange={(e) => {
                                                                                                     field.onChange(e)
-                                                                                                    handleNestedInputChange("employment", index, "city", e.target.value)
+                                                                                                    handleNestedInputChange("education", index, "fieldOfStudy", e.target.value)
                                                                                                 }}
                                                                                             />
                                                                                         </FormControl>
@@ -470,10 +658,11 @@ function Builder() {
                                                                             />
                                                                         </div>
                                                                     </div>
+
                                                                     <div className="flex gap-3 grow mb-4">
                                                                         <div className="grow">
                                                                             <FormField
-                                                                                name={`employment[${index}].startYear`}
+                                                                                name={`education[${index}].startYear`}
                                                                                 render={({ field }) => (
                                                                                     <FormItem>
                                                                                         <FormLabel>Start Year</FormLabel>
@@ -483,7 +672,7 @@ function Builder() {
                                                                                                 {...field}
                                                                                                 onChange={(e) => {
                                                                                                     field.onChange(e)
-                                                                                                    handleNestedInputChange("employment", index, "startYear", e.target.value)
+                                                                                                    handleNestedInputChange("education", index, "startYear", e.target.value)
                                                                                                 }}
                                                                                             />
                                                                                         </FormControl>
@@ -493,7 +682,7 @@ function Builder() {
                                                                         </div>
                                                                         <div className="grow">
                                                                             <FormField
-                                                                                name={`employment[${index}].endYear`}
+                                                                                name={`education[${index}].endYear`}
                                                                                 render={({ field }) => (
                                                                                     <FormItem>
                                                                                         <FormLabel>End Year</FormLabel>
@@ -503,7 +692,7 @@ function Builder() {
                                                                                                 {...field}
                                                                                                 onChange={(e) => {
                                                                                                     field.onChange(e)
-                                                                                                    handleNestedInputChange("employment", index, "endYear", e.target.value)
+                                                                                                    handleNestedInputChange("education", index, "endYear", e.target.value)
                                                                                                 }}
                                                                                             />
                                                                                         </FormControl>
@@ -512,9 +701,10 @@ function Builder() {
                                                                             />
                                                                         </div>
                                                                     </div>
-                                                                    <div className="grow mb-4">
+
+                                                                    <div className="grow  mb-4">
                                                                         <FormField
-                                                                            name={`employment[${index}].description`}
+                                                                            name={`education[${index}].description`}
                                                                             render={({ field }) => (
                                                                                 <FormItem>
                                                                                     <FormLabel>Description</FormLabel>
@@ -524,7 +714,7 @@ function Builder() {
                                                                                             {...field}
                                                                                             onChange={(e) => {
                                                                                                 field.onChange(e)
-                                                                                                handleNestedInputChange("employment", index, "description", e.target.value)
+                                                                                                handleNestedInputChange("education", index, "description", e.target.value)
                                                                                             }}
                                                                                         />
                                                                                     </FormControl>
@@ -540,246 +730,71 @@ function Builder() {
                                                                             const newData = {
                                                                                 ...data,
                                                                             } as any
-                                                                            newData.employment.splice(index, 1)
+                                                                            newData.education.splice(index, 1)
                                                                             setData(newData)
 
-                                                                            removeEmployment(index)
+                                                                            removeEducation(index)
                                                                         }}
                                                                     >
-                                                                        <BiMinus className="mr-1" /> Remove Employment
+                                                                        <BiMinus className="mr-1" /> Remove Education
                                                                     </Button>
                                                                 </div>
                                                             ))}
-                                                        <Button
-                                                            type="button"
-                                                            onClick={() =>
-                                                                appendEmployment({
-                                                                    jobTitle: "",
-                                                                    companyName: "",
-                                                                    city: "",
-                                                                    startYear: "",
-                                                                    endYear: "",
-                                                                    description: "",
-                                                                })
-                                                            }
-                                                        >
-                                                            <BiPlus className="mr-1" /> Add Employment
-                                                        </Button>
-                                                    </CardContent>
-                                                </Card>
 
-                                                {/* Education */}
-                                                <Card className=" bg-slate-100  ">
-                                                    <CardHeader>
-                                                        <CardTitle className="text-lg font-bold">
-                                                            <BiEdit className="text-xl mb-1 mr-2 inline" />
-                                                            Educations
-                                                        </CardTitle>
-                                                        <CardDescription>Fill in all required details below</CardDescription>
-                                                    </CardHeader>
-                                                    <CardContent className="grid gap-4">
-                                                        {educationFields.map((education, index) => (
-                                                            <div key={education.id}>
-                                                                <div className="grow mb-4">
-                                                                    <FormField
-                                                                        name={`education[${index}].schoolName`}
-                                                                        key={education.id}
-                                                                        render={({ field }) => (
-                                                                            <FormItem>
-                                                                                <FormLabel>School Name</FormLabel>
-                                                                                <FormControl>
-                                                                                    <Input
-                                                                                        placeholder="School Name"
-                                                                                        {...field}
-                                                                                        onChange={(e) => {
-                                                                                            field.onChange(e)
-                                                                                            handleNestedInputChange("education", index, "schoolName", e.target.value)
-                                                                                        }}
-                                                                                    />
-                                                                                </FormControl>
-                                                                            </FormItem>
-                                                                        )}
-                                                                    />
-                                                                </div>
-                                                                <div className="flex gap-3 mb-4">
-                                                                    <div className="grow">
-                                                                        <FormField
-                                                                            name={`education[${index}].degree`}
-                                                                            render={({ field }) => (
-                                                                                <FormItem>
-                                                                                    <FormLabel>Degree</FormLabel>
-                                                                                    <FormControl>
-                                                                                        <Input
-                                                                                            placeholder="Degree"
-                                                                                            {...field}
-                                                                                            onChange={(e) => {
-                                                                                                field.onChange(e)
-                                                                                                handleNestedInputChange("education", index, "degree", e.target.value)
-                                                                                            }}
-                                                                                        />
-                                                                                    </FormControl>
-                                                                                </FormItem>
-                                                                            )}
-                                                                        />
-                                                                    </div>
-                                                                    <div className="grow">
-                                                                        <FormField
-                                                                            name={`education[${index}].fieldOfStudy`}
-                                                                            render={({ field }) => (
-                                                                                <FormItem>
-                                                                                    <FormLabel>Field of Study</FormLabel>
-                                                                                    <FormControl>
-                                                                                        <Input
-                                                                                            placeholder="Field of Study"
-                                                                                            {...field}
-                                                                                            onChange={(e) => {
-                                                                                                field.onChange(e)
-                                                                                                handleNestedInputChange("education", index, "fieldOfStudy", e.target.value)
-                                                                                            }}
-                                                                                        />
-                                                                                    </FormControl>
-                                                                                </FormItem>
-                                                                            )}
-                                                                        />
-                                                                    </div>
-                                                                </div>
+                                                            <Button
+                                                                type="button"
+                                                                onClick={() =>
+                                                                    appendEducation({
+                                                                        schoolName: "",
+                                                                        degree: "",
+                                                                        fieldOfStudy: "",
+                                                                        startYear: "",
+                                                                        endYear: "",
+                                                                        city: "",
+                                                                        description: "",
+                                                                    })
+                                                                }
+                                                            >
+                                                                <BiPlus className="mr-1" /> Add Education
+                                                            </Button>
+                                                        </CardContent>
+                                                    </Card>
 
-                                                                <div className="flex gap-3 grow mb-4">
-                                                                    <div className="grow">
-                                                                        <FormField
-                                                                            name={`education[${index}].startYear`}
-                                                                            render={({ field }) => (
-                                                                                <FormItem>
-                                                                                    <FormLabel>Start Year</FormLabel>
-                                                                                    <FormControl>
-                                                                                        <Input
-                                                                                            placeholder="Start Year"
-                                                                                            {...field}
-                                                                                            onChange={(e) => {
-                                                                                                field.onChange(e)
-                                                                                                handleNestedInputChange("education", index, "startYear", e.target.value)
-                                                                                            }}
-                                                                                        />
-                                                                                    </FormControl>
-                                                                                </FormItem>
-                                                                            )}
-                                                                        />
-                                                                    </div>
-                                                                    <div className="grow">
-                                                                        <FormField
-                                                                            name={`education[${index}].endYear`}
-                                                                            render={({ field }) => (
-                                                                                <FormItem>
-                                                                                    <FormLabel>End Year</FormLabel>
-                                                                                    <FormControl>
-                                                                                        <Input
-                                                                                            placeholder="End Year"
-                                                                                            {...field}
-                                                                                            onChange={(e) => {
-                                                                                                field.onChange(e)
-                                                                                                handleNestedInputChange("education", index, "endYear", e.target.value)
-                                                                                            }}
-                                                                                        />
-                                                                                    </FormControl>
-                                                                                </FormItem>
-                                                                            )}
-                                                                        />
-                                                                    </div>
-                                                                </div>
-
-                                                                <div className="grow  mb-4">
-                                                                    <FormField
-                                                                        name={`education[${index}].description`}
-                                                                        render={({ field }) => (
-                                                                            <FormItem>
-                                                                                <FormLabel>Description</FormLabel>
-                                                                                <FormControl>
-                                                                                    <Textarea
-                                                                                        placeholder="Description"
-                                                                                        {...field}
-                                                                                        onChange={(e) => {
-                                                                                            field.onChange(e)
-                                                                                            handleNestedInputChange("education", index, "description", e.target.value)
-                                                                                        }}
-                                                                                    />
-                                                                                </FormControl>
-                                                                            </FormItem>
-                                                                        )}
-                                                                    />
-                                                                </div>
-                                                                <Button
-                                                                    type="button"
-                                                                    variant="destructive"
-                                                                    className="w-full"
-                                                                    onClick={() => {
-                                                                        const newData = {
-                                                                            ...data,
-                                                                        } as any
-                                                                        newData.education.splice(index, 1)
-                                                                        setData(newData)
-
-                                                                        removeEducation(index)
-                                                                    }}
-                                                                >
-                                                                    <BiMinus className="mr-1" /> Remove Education
-                                                                </Button>
-                                                            </div>
-                                                        ))}
-
-                                                        <Button
-                                                            type="button"
-                                                            onClick={() =>
-                                                                appendEducation({
-                                                                    schoolName: "",
-                                                                    degree: "",
-                                                                    fieldOfStudy: "",
-                                                                    startYear: "",
-                                                                    endYear: "",
-                                                                    city: "",
-                                                                    description: "",
-                                                                })
-                                                            }
-                                                        >
-                                                            <BiPlus className="mr-1" /> Add Education
-                                                        </Button>
-                                                    </CardContent>
-                                                </Card>
-
-                                                {/* Skills */}
-                                                <Card className="bg-slate-100 ">
-                                                    <CardHeader>
-                                                        <CardTitle className="text-lg font-bold">
-                                                            <BiEdit className="text-xl mb-1 mr-2 inline" />
-                                                            Skills
-                                                        </CardTitle>
-                                                        <CardDescription>Add your skills below</CardDescription>
-                                                    </CardHeader>
-                                                    <CardContent className="grid gap-4">
-                                                        {skillFields.map((skill, index) => (
-                                                            <div key={skill.id}>
-                                                                <div className="flex gap-3 mb-4 items-end">
-                                                                    <div className="grow">
-                                                                        <FormField
-                                                                            name={`skills[${index}].skillTitle`}
-                                                                            key={skill.id}
-                                                                            render={({ field }) => (
-                                                                                <FormItem>
-                                                                                    <FormLabel>Skill Title</FormLabel>
-                                                                                    <FormControl>
-                                                                                        <Input
-                                                                                            placeholder="Skill Title"
-                                                                                            {...field}
-                                                                                            onChange={(e) => {
-                                                                                                field.onChange(e)
-                                                                                                handleNestedInputChange("skills", index, "skillTitle", e.target.value)
-                                                                                            }}
-                                                                                        />
-                                                                                    </FormControl>
-                                                                                </FormItem>
-                                                                            )}
-                                                                        />
-                                                                    </div>
-                                                                    {/* <div className="grow">
+                                                    {/* Skills */}
+                                                    <Card className="bg-slate-100 ">
+                                                        <CardHeader>
+                                                            <CardTitle className="text-lg font-bold">
+                                                                <BiEdit className="text-xl mb-1 mr-2 inline" />
+                                                                Skills
+                                                            </CardTitle>
+                                                            <CardDescription>Add your skills below</CardDescription>
+                                                        </CardHeader>
+                                                        <CardContent className="grid gap-4">
+                                                            {skillFields.map((skill, index) => (
+                                                                <div key={skill.id}>
+                                                                    <div className="flex gap-3 mb-4 items-end">
+                                                                        <div className="grow">
+                                                                            <FormField
+                                                                                name={`skills[${index}].skillTitle`}
+                                                                                key={skill.id}
+                                                                                render={({ field }) => (
+                                                                                    <FormItem>
+                                                                                        <FormLabel>Skill Title</FormLabel>
+                                                                                        <FormControl>
+                                                                                            <Input
+                                                                                                placeholder="Skill Title"
+                                                                                                {...field}
+                                                                                                onChange={(e) => {
+                                                                                                    field.onChange(e)
+                                                                                                    handleNestedInputChange("skills", index, "skillTitle", e.target.value)
+                                                                                                }}
+                                                                                            />
+                                                                                        </FormControl>
+                                                                                    </FormItem>
+                                                                                )}
+                                                                            />
+                                                                        </div>
+                                                                        {/* <div className="grow">
                                                                         <FormField
                                                                             name={`skills[${index}].skillRating`}
                                                                             render={({ field }) => (
@@ -797,41 +812,42 @@ function Builder() {
                                                                             )}
                                                                         />
                                                                     </div> */}
-                                                                    <Button
-                                                                        type="button"
-                                                                        variant="destructive"
-                                                                        onClick={() => {
-                                                                            const newData = {
-                                                                                ...data,
-                                                                            } as any
-                                                                            newData.skills.splice(index, 1)
-                                                                            setData(newData)
+                                                                        <Button
+                                                                            type="button"
+                                                                            variant="destructive"
+                                                                            onClick={() => {
+                                                                                const newData = {
+                                                                                    ...data,
+                                                                                } as any
+                                                                                newData.skills.splice(index, 1)
+                                                                                setData(newData)
 
-                                                                            removeSkill(index)
-                                                                        }}
-                                                                    >
-                                                                        <BiMinus className="mr-1" /> Remove
-                                                                    </Button>
+                                                                                removeSkill(index)
+                                                                            }}
+                                                                        >
+                                                                            <BiMinus className="mr-1" /> Remove
+                                                                        </Button>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        ))}
-                                                        <Button
-                                                            type="button"
-                                                            onClick={() =>
-                                                                appendSkill({
-                                                                    skillTitle: "",
-                                                                    skillRating: "Beginner", // Set a default rating
-                                                                })
-                                                            }
-                                                        >
-                                                            <BiPlus className="mr-1" /> Add Skill
-                                                        </Button>
-                                                    </CardContent>
-                                                </Card>
+                                                            ))}
+                                                            <Button
+                                                                type="button"
+                                                                onClick={() =>
+                                                                    appendSkill({
+                                                                        skillTitle: "",
+                                                                        skillRating: "Beginner", // Set a default rating
+                                                                    })
+                                                                }
+                                                            >
+                                                                <BiPlus className="mr-1" /> Add Skill
+                                                            </Button>
+                                                        </CardContent>
+                                                    </Card>
 
-                                                {/* <Button type="submit">Submit</Button> */}
-                                            </form>
-                                        </Form>
+                                                    {/* <Button type="submit">Submit</Button> */}
+                                                </form>
+                                            </Form>
+                                        </div>
                                         {templateId === "professional" && <Professional imagePreview={imagePreview} />}
                                     </div>
                                 </TabsContent>
