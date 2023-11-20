@@ -60,11 +60,11 @@ export default function Login() {
                         <p className="px-8 text-center text-sm text-muted-foreground">
                             By signing in, you agree to our
                             <br />
-                            <Link href="/terms" className="underline underline-offset-4 hover:text-primary">
+                            <Link href="/terms-of-service" className="underline underline-offset-4 hover:text-primary">
                                 Terms of Service
                             </Link>{" "}
                             and{" "}
-                            <Link href="/privacy" className="underline underline-offset-4 hover:text-primary">
+                            <Link href="/privacy-policy" className="underline underline-offset-4 hover:text-primary">
                                 Privacy Policy
                             </Link>
                             .
