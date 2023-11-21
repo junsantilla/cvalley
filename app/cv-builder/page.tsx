@@ -40,8 +40,8 @@ function page() {
     }
 
     return (
-        <div>
-            <div className="hidden flex-col md:flex">
+        <div className=" min-w-fit">
+            <div className="hidden flex-col md:flex min-w-max">
                 <div className=" bg-slate-950 text-slate-100">
                     <div className="flex h-16 items-center px-4 mx-4">
                         <MainNav />
@@ -54,7 +54,7 @@ function page() {
 
             <Builder />
 
-            <div className="hidden flex-col md:flex">
+            <div className="flex-col md:flex">
                 <div className="border-t bg-slate-50">
                     <div className="flex h-16 items-center px-4 mx-4">
                         <p>
