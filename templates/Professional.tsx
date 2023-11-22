@@ -49,14 +49,9 @@ const Professional: React.FC<ProfessionalProps> = ({ imagePreview }) => {
             const containerHeight: number = parseFloat(getComputedStyle(a4Container).height)
             const divHeight: number = parseFloat(getComputedStyle(a4Div).height)
 
-            console.log("Container height:", containerHeight)
-            console.log("Div computed height:", divHeight)
-
             if (divHeight - 20 > containerHeight) {
                 alert("Warning: Your data may overflow. Our app can render 1 page only at the moment.")
             }
-        } else {
-            console.error("Element with id 'a4-container' or 'element-to-capture' not found.")
         }
     }, [data])
 
@@ -85,7 +80,7 @@ const Professional: React.FC<ProfessionalProps> = ({ imagePreview }) => {
     }
 
     return (
-        <div className="w-full flex justify-center p-8 bg-slate-100">
+        <div className="w-full flex justify-center p-8 bg-slate-100 pt-10">
             {/* Template */}
             <div className="a4-container" id="a4-container">
                 <div className="flex a4 bg-slate-200  h-full text-sm" id="element-to-capture">
@@ -138,12 +133,12 @@ const Professional: React.FC<ProfessionalProps> = ({ imagePreview }) => {
                                 <ul>
                                     {data.employment.map((job: any, index: number) => (
                                         <li key={index} className="mb-4">
-                                            <p className="font-bold">
+                                            <div className="font-bold">
                                                 <p className="text-lg">{job.jobTitle}</p>
                                                 <p className="text-xs">
                                                     {job.companyName}, {job.city}
                                                 </p>
-                                            </p>
+                                            </div>
                                             <p className="text-xs py-1 spa text-slate-600 uppercase font-bold">
                                                 {job.startYear} - {job.endYear}
                                             </p>
@@ -163,21 +158,21 @@ const Professional: React.FC<ProfessionalProps> = ({ imagePreview }) => {
                                 <ul>
                                     {data.education.map((school: any, index: number) => (
                                         <li key={index}>
-                                            <div className="mb-4">
+                                            <ul className="mb-4">
                                                 <li key={index}>
-                                                    <p className="font-bold">
+                                                    <div className="font-bold">
                                                         <p className="text-lg">{school.schoolName}</p>
                                                         <p className="text-xs">
                                                             {school.degree}, {school.fieldOfStudy}
                                                         </p>
-                                                    </p>
+                                                    </div>
 
                                                     <p className="font-xs text-xs py-1 spa tracking-widest  text-slate-500 uppercase font-semibold">
                                                         {school.startYear} - {school.endYear}
                                                     </p>
                                                     <p>{school.description}</p>
                                                 </li>
-                                            </div>
+                                            </ul>
                                         </li>
                                     ))}
                                 </ul>

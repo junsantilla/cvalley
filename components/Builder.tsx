@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { BiSolidFilePdf, BiEdit, BiFileFind, BiMinus, BiPlus, BiUser } from "react-icons/bi"
 import { Button } from "./ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs"
@@ -44,21 +44,52 @@ const formSchema = z.object({
             fieldOfStudy: z.string().max(100).optional(),
             startYear: z.string().optional(),
             endYear: z.string().optional(),
-            city: z.string().max(100).optional(),
+
             description: z.string().optional(),
         })
     ),
     skills: z.array(
         z.object({
             skillTitle: z.string().max(100).optional(),
-            skillRating: z
-                .string()
-                .refine((rating) => ["Beginner", "Intermediate", "Advanced", "Expert"].includes(rating))
-                .optional(),
         })
     ),
     image: z.string().max(500).optional(),
 })
+
+// Initial state for the data object
+const initialData = {
+    fullName: "",
+    jobTitle: "",
+    phoneNumber: "",
+    emailAddress: "",
+    address: "",
+    objective: "",
+    employment: [
+        {
+            companyName: "",
+            jobTitle: "",
+            city: "",
+            startYear: "",
+            endYear: "",
+            description: "",
+        },
+    ],
+    education: [
+        {
+            schoolName: "",
+            degree: "",
+            fieldOfStudy: "",
+            startYear: "",
+            endYear: "",
+            description: "",
+        },
+    ],
+    skills: [
+        {
+            skillTitle: "",
+        },
+    ],
+}
 
 function Builder() {
     const searchParams = useSearchParams()
@@ -66,7 +97,8 @@ function Builder() {
 
     const router = useRouter()
 
-    const [data, setData] = useLocalStorage("data", {})
+    const [data, setData] = useLocalStorage("data", formSchema.parse(initialData))
+
     const [imagePreview, setImagePreview] = useState<string>("")
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -94,14 +126,13 @@ function Builder() {
                     fieldOfStudy: "",
                     startYear: "",
                     endYear: "",
-                    city: "",
+
                     description: "",
                 },
             ],
             skills: [
                 {
                     skillTitle: "",
-                    skillRating: "Beginner",
                 },
             ],
         },
@@ -136,18 +167,54 @@ function Builder() {
         name: "skills",
     })
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values)
-        setData(values)
-    }
+    const hasEffectRunEmployment = useRef(false)
+    useEffect(() => {
+        if (data.employment && data.employment.length > 0 && !hasEffectRunEmployment.current) {
+            for (let i = 1; i < data.employment.length; i++) {
+                appendEmployment(data.employment[i])
+            }
 
-    const handleInputChange = (name: string, value: any) => {
+            hasEffectRunEmployment.current = true
+        }
+    }, [data.employment, appendEmployment])
+
+    const hasEffectRunEducation = useRef(false)
+    useEffect(() => {
+        if (data.education && data.education.length > 0 && !hasEffectRunEducation.current) {
+            for (let i = 1; i < data.education.length; i++) {
+                appendEducation(data.education[i])
+            }
+
+            hasEffectRunEducation.current = true
+        }
+    }, [data.education, appendEducation])
+
+    const hasEffectRunSkills = useRef(false)
+    useEffect(() => {
+        if (data.skills && data.skills.length > 0 && !hasEffectRunSkills.current) {
+            for (let i = 1; i < data.skills.length; i++) {
+                appendSkill(data.skills[i])
+            }
+
+            hasEffectRunSkills.current = true
+        }
+    }, [data.skills, appendSkill])
+
+    //Handle input change
+    const handleInputChange = (name: string, value: string | number) => {
+        // Update the data state with the new value
         setData((prevData) => ({
-            ...prevData,
+            ...prevData!,
             [name]: value,
         }))
+
+        // Reset the flags for useFieldArray useEffects
+        hasEffectRunEmployment.current = false
+        hasEffectRunEducation.current = false
+        hasEffectRunSkills.current = false
     }
 
+    // Handle nested input change
     const handleNestedInputChange = (category: string, index: number, fieldName: string, value: any) => {
         setData((prevData) => {
             const newData = { ...prevData } as any
@@ -166,6 +233,9 @@ function Builder() {
         })
     }
 
+    // Generate PDF from HTML
+    const htmlContentId = "element-to-capture"
+
     async function generatePDFfromHTML(htmlContentId: string, outputPath: string) {
         const doc = new jsPDF()
 
@@ -175,49 +245,53 @@ function Builder() {
             return
         }
 
-        // Use html2canvas to capture the HTML content as an image
         const canvas = await html2canvas(htmlElement, {
-            scale: 2, // Increase the scale factor to improve resolution
-            logging: true, // Enable logging to see if there are any issues
+            scale: 2,
+            logging: true,
             width: htmlElement.offsetWidth,
             height: htmlElement.offsetHeight,
         })
 
-        // Convert the canvas to a data URL
         const imgData = canvas.toDataURL("image/png")
-
-        // Add the image to the PDF
-        doc.addImage(imgData, "PNG", 0, 0, 210, 0) // Adjust the parameters as needed
-
-        // Save the PDF
+        doc.addImage(imgData, "PNG", 0, 0, 210, 0)
         doc.save(outputPath)
-        console.log("PDF generated successfully")
     }
 
-    // Usage
-    const htmlContentId = "element-to-capture" // Replace with your actual element ID
-
+    // Handle data change
     const handleDataChange = (newData: any) => {
         setData(newData)
     }
 
+    // Clear dta
     const handleClearData = () => {
-        setData("")
+        setData(formSchema.parse(initialData))
+
+        for (let i = employmentFields.length - 1; i > 0; i--) {
+            removeEmployment(i)
+        }
+        for (let i = educationFields.length - 1; i > 0; i--) {
+            removeEducation(i)
+        }
+        for (let i = skillFields.length - 1; i > 0; i--) {
+            removeSkill(i)
+        }
+
+        hasEffectRunEmployment.current = false
+        hasEffectRunEducation.current = false
+        hasEffectRunSkills.current = false
     }
 
     return (
-        <section className="pb-10 flex flex-col ">
-            <div className="flex justify-center mb-6">
+        <section className="flex flex-col ">
+            <div className="flex justify-center">
                 <div className="w-full">
                     <Tabs value={templateId == null ? "template" : "account"} className="p-0">
-                        <div className="bg-slate-900 text-slate-100 w-full flex justify-between mb-6 py-3 px-8">
+                        <div className="bg-slate-900 text-slate-100 w-full flex justify-between py-3 px-8">
                             <h2 className="font-bold text-lg flex items-center capitalize">{templateId ?? "Choose Template"}</h2>
-
                             <TabsList className="bg-slate-900 p-0">
                                 <TabsTrigger
                                     value="template"
                                     onClick={() => {
-                                        // Clear all query parameters when "Choose Template" tab is clicked
                                         router.push("/cv-builder")
                                     }}
                                     className="bg-slate-900 "
@@ -242,13 +316,13 @@ function Builder() {
                                 </TabsContent>
 
                                 <TabsContent value="account">
-                                    <div className="flex -my-8 -mb-16 ">
-                                        <div className="flex flex-col">
+                                    <div className="flex -mt-2">
+                                        <div className="flex flex-col ">
                                             <Form {...form}>
-                                                <form className="cvForm space-y-8 overflow-auto no-scrollbar p-8 bg-slate-200">
+                                                <form className="cvForm space-y-8 overflow-auto no-scrollbar p-8 bg-slate-500">
                                                     <div className="flex justify-end gap-3">
                                                         <ClearDataButton onClearData={handleClearData} />
-                                                        <AddDummyDataButton onDataAdd={handleDataChange} />
+                                                        {/* <AddDummyDataButton onDataAdd={handleDataChange} /> */}
                                                     </div>
                                                     {/* Personal Information */}
                                                     <Card className=" bg-slate-100  ">
@@ -288,7 +362,6 @@ function Builder() {
                                                             />
 
                                                             <div className="flex gap-4">
-                                                                {" "}
                                                                 <FormField
                                                                     control={form.control}
                                                                     name="fullName"
@@ -299,6 +372,7 @@ function Builder() {
                                                                                 <Input
                                                                                     placeholder="John Doe"
                                                                                     {...field}
+                                                                                    value={data.fullName || ""}
                                                                                     onChange={(e) => {
                                                                                         field.onChange(e)
                                                                                         handleInputChange("fullName", e.target.value)
@@ -318,6 +392,7 @@ function Builder() {
                                                                                 <Input
                                                                                     placeholder="Web Developer"
                                                                                     {...field}
+                                                                                    value={data.jobTitle || ""}
                                                                                     onChange={(e) => {
                                                                                         field.onChange(e)
                                                                                         handleInputChange("jobTitle", e.target.value)
@@ -340,6 +415,7 @@ function Builder() {
                                                                                 <Input
                                                                                     placeholder="123-456-7890"
                                                                                     {...field}
+                                                                                    value={data.phoneNumber || ""}
                                                                                     onChange={(e) => {
                                                                                         field.onChange(e)
                                                                                         handleInputChange("phoneNumber", e.target.value)
@@ -359,6 +435,7 @@ function Builder() {
                                                                                 <Input
                                                                                     placeholder="you@example.com"
                                                                                     {...field}
+                                                                                    value={data.emailAddress || ""}
                                                                                     onChange={(e) => {
                                                                                         field.onChange(e)
                                                                                         handleInputChange("emailAddress", e.target.value)
@@ -379,6 +456,7 @@ function Builder() {
                                                                             <Input
                                                                                 placeholder="123 Main St, City, Country"
                                                                                 {...field}
+                                                                                value={data.address || ""}
                                                                                 onChange={(e) => {
                                                                                     field.onChange(e)
                                                                                     handleInputChange("address", e.target.value)
@@ -398,6 +476,7 @@ function Builder() {
                                                                             <Textarea
                                                                                 placeholder="A brief summary of your career goals..."
                                                                                 {...field}
+                                                                                value={data.objective || ""}
                                                                                 onChange={(e) => {
                                                                                     field.onChange(e)
                                                                                     handleInputChange("objective", e.target.value)
@@ -433,6 +512,7 @@ function Builder() {
                                                                                             <Input
                                                                                                 placeholder="Job Title"
                                                                                                 {...field}
+                                                                                                value={data.employment?.[index]?.jobTitle || ""}
                                                                                                 onChange={(e) => {
                                                                                                     field.onChange(e)
                                                                                                     handleNestedInputChange("employment", index, "jobTitle", e.target.value)
@@ -454,6 +534,7 @@ function Builder() {
                                                                                                 <Input
                                                                                                     placeholder="Company Name"
                                                                                                     {...field}
+                                                                                                    value={data.employment?.[index]?.companyName || ""}
                                                                                                     onChange={(e) => {
                                                                                                         field.onChange(e)
                                                                                                         handleNestedInputChange("employment", index, "companyName", e.target.value)
@@ -474,6 +555,7 @@ function Builder() {
                                                                                                 <Input
                                                                                                     placeholder="City		"
                                                                                                     {...field}
+                                                                                                    value={data.employment?.[index]?.city || ""}
                                                                                                     onChange={(e) => {
                                                                                                         field.onChange(e)
                                                                                                         handleNestedInputChange("employment", index, "city", e.target.value)
@@ -491,11 +573,12 @@ function Builder() {
                                                                                     name={`employment[${index}].startYear`}
                                                                                     render={({ field }) => (
                                                                                         <FormItem>
-                                                                                            <FormLabel>Start Year</FormLabel>
+                                                                                            <FormLabel>Start Date</FormLabel>
                                                                                             <FormControl>
                                                                                                 <Input
-                                                                                                    placeholder="Start Year"
+                                                                                                    placeholder="Start Date"
                                                                                                     {...field}
+                                                                                                    value={data.employment?.[index]?.startYear || ""}
                                                                                                     onChange={(e) => {
                                                                                                         field.onChange(e)
                                                                                                         handleNestedInputChange("employment", index, "startYear", e.target.value)
@@ -511,11 +594,12 @@ function Builder() {
                                                                                     name={`employment[${index}].endYear`}
                                                                                     render={({ field }) => (
                                                                                         <FormItem>
-                                                                                            <FormLabel>End Year</FormLabel>
+                                                                                            <FormLabel>End Date</FormLabel>
                                                                                             <FormControl>
                                                                                                 <Input
-                                                                                                    placeholder="End Year"
+                                                                                                    placeholder="End Date"
                                                                                                     {...field}
+                                                                                                    value={data.employment?.[index]?.endYear || ""}
                                                                                                     onChange={(e) => {
                                                                                                         field.onChange(e)
                                                                                                         handleNestedInputChange("employment", index, "endYear", e.target.value)
@@ -537,6 +621,7 @@ function Builder() {
                                                                                             <Textarea
                                                                                                 placeholder="Description"
                                                                                                 {...field}
+                                                                                                value={data.employment?.[index]?.description || ""}
                                                                                                 onChange={(e) => {
                                                                                                     field.onChange(e)
                                                                                                     handleNestedInputChange("employment", index, "description", e.target.value)
@@ -606,6 +691,7 @@ function Builder() {
                                                                                         <Input
                                                                                             placeholder="School Name"
                                                                                             {...field}
+                                                                                            value={data.education?.[index]?.schoolName || ""}
                                                                                             onChange={(e) => {
                                                                                                 field.onChange(e)
                                                                                                 handleNestedInputChange("education", index, "schoolName", e.target.value)
@@ -627,6 +713,7 @@ function Builder() {
                                                                                             <Input
                                                                                                 placeholder="Degree"
                                                                                                 {...field}
+                                                                                                value={data.education?.[index]?.degree || ""}
                                                                                                 onChange={(e) => {
                                                                                                     field.onChange(e)
                                                                                                     handleNestedInputChange("education", index, "degree", e.target.value)
@@ -647,6 +734,7 @@ function Builder() {
                                                                                             <Input
                                                                                                 placeholder="Field of Study"
                                                                                                 {...field}
+                                                                                                value={data.education?.[index]?.fieldOfStudy || ""}
                                                                                                 onChange={(e) => {
                                                                                                     field.onChange(e)
                                                                                                     handleNestedInputChange("education", index, "fieldOfStudy", e.target.value)
@@ -670,6 +758,7 @@ function Builder() {
                                                                                             <Input
                                                                                                 placeholder="Start Year"
                                                                                                 {...field}
+                                                                                                value={data.education?.[index]?.startYear || ""}
                                                                                                 onChange={(e) => {
                                                                                                     field.onChange(e)
                                                                                                     handleNestedInputChange("education", index, "startYear", e.target.value)
@@ -690,6 +779,7 @@ function Builder() {
                                                                                             <Input
                                                                                                 placeholder="End Year"
                                                                                                 {...field}
+                                                                                                value={data.education?.[index]?.endYear || ""}
                                                                                                 onChange={(e) => {
                                                                                                     field.onChange(e)
                                                                                                     handleNestedInputChange("education", index, "endYear", e.target.value)
@@ -712,6 +802,7 @@ function Builder() {
                                                                                         <Textarea
                                                                                             placeholder="Description"
                                                                                             {...field}
+                                                                                            value={data.education?.[index]?.description || ""}
                                                                                             onChange={(e) => {
                                                                                                 field.onChange(e)
                                                                                                 handleNestedInputChange("education", index, "description", e.target.value)
@@ -750,7 +841,6 @@ function Builder() {
                                                                         fieldOfStudy: "",
                                                                         startYear: "",
                                                                         endYear: "",
-                                                                        city: "",
                                                                         description: "",
                                                                     })
                                                                 }
@@ -784,6 +874,7 @@ function Builder() {
                                                                                             <Input
                                                                                                 placeholder="Skill Title"
                                                                                                 {...field}
+                                                                                                value={data.skills?.[index]?.skillTitle || ""}
                                                                                                 onChange={(e) => {
                                                                                                     field.onChange(e)
                                                                                                     handleNestedInputChange("skills", index, "skillTitle", e.target.value)
@@ -794,24 +885,7 @@ function Builder() {
                                                                                 )}
                                                                             />
                                                                         </div>
-                                                                        {/* <div className="grow">
-                                                                        <FormField
-                                                                            name={`skills[${index}].skillRating`}
-                                                                            render={({ field }) => (
-                                                                                <FormItem>
-                                                                                    <FormLabel>Skill Rating</FormLabel>
-                                                                                    <FormControl>
-                                                                                        <select {...field} className="w-full border rounded-md px-3 py-2">
-                                                                                            <option value="Beginner">Beginner</option>
-                                                                                            <option value="Intermediate">Intermediate</option>
-                                                                                            <option value="Advanced">Advanced</option>
-                                                                                            <option value="Expert">Expert</option>
-                                                                                        </select>
-                                                                                    </FormControl>
-                                                                                </FormItem>
-                                                                            )}
-                                                                        />
-                                                                    </div> */}
+
                                                                         <Button
                                                                             type="button"
                                                                             variant="destructive"
@@ -835,7 +909,6 @@ function Builder() {
                                                                 onClick={() =>
                                                                     appendSkill({
                                                                         skillTitle: "",
-                                                                        skillRating: "Beginner", // Set a default rating
                                                                     })
                                                                 }
                                                             >

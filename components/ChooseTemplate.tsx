@@ -38,7 +38,7 @@ function ChooseTemplate() {
     const filteredCards = selectedCategory === "All" ? cardData : cardData.filter((card) => card.category === selectedCategory)
 
     return (
-        <section className="flex flex-col">
+        <section className="flex flex-col py-8">
             <div className=" mb-6 flex justify-center">
                 <div className="w-full max-w-screen-xl flex justify-end">
                     <div className="flex gap-1">
