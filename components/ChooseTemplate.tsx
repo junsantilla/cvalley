@@ -1,33 +1,21 @@
+"use client"
 import React, { useRef, useState } from "react"
 import Link from "next/link"
 import { Button } from "./ui/button"
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/card"
 import { BiAward, BiBriefcaseAlt2, BiBrush, BiFileFind, BiFoodMenu, BiRightArrow, BiStar } from "react-icons/bi"
 import { Badge } from "./ui/badge"
+import Image from "next/image"
 
 function ChooseTemplate() {
     // Sample card data
     const cardData = [
         {
-            id: "entry-level",
-            title: "Entry-Level",
-            description: "A simple template suitable for entry-level job seekers.",
-            imageURL: "https://gdoc.io/uploads/University-Student-Resume-Template-web1.jpg",
-            category: "Simple",
-        },
-        {
             id: "professional",
             title: "Professional",
             description: "A polished and modern template for professionals.",
-            imageURL: "https://gdoc.io/uploads/University-Student-Resume-Template-web1.jpg",
+            imageURL: "/images/templates/template-professional-preview.png",
             category: "Professional",
-        },
-        {
-            id: "creative",
-            title: "Creative",
-            description: "An eye-catching and creative template to showcase your skills.",
-            imageURL: "https://gdoc.io/uploads/University-Student-Resume-Template-web1.jpg",
-            category: "Modern",
         },
     ]
 
@@ -64,10 +52,11 @@ function ChooseTemplate() {
                 <div className="w-full max-w-screen-xl">
                     <div className="grid grid-cols-3 gap-4">
                         {filteredCards.map((card, index) => (
-                            <Card key={index} className="p-2 bg-slate-100 ">
+                            <Card key={index} className="p-2 bg-slate-100 hover:border-slate-300 hover:bg-slate-200 ">
                                 <div className="flex flex-col h-full">
                                     <CardHeader>
-                                        <img src={card.imageURL} alt="CV Image" className="mb-3" />
+                                        <Image src={card.imageURL} alt={`Preview of ${card.title}`} width={500} height={500} layout="responsive" className="mb-3" />
+
                                         <CardTitle className="text-lg flex justify-between">
                                             {card.title}
                                             <Badge className="mx-2 text-xs ">{card.category}</Badge>

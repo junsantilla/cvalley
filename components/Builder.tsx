@@ -12,7 +12,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/
 import { useRouter } from "next/navigation"
 import ChooseTemplate from "./ChooseTemplate"
 import { useSearchParams } from "next/navigation"
-import Professional from "@/templates/Professional"
+import Professional from "@/templates/Professional/Professional"
 import useLocalStorage from "use-local-storage"
 import html2canvas from "html2canvas"
 import jsPDF from "jspdf"
@@ -322,7 +322,7 @@ function Builder() {
                                                 <form className="cvForm space-y-8 overflow-auto no-scrollbar p-8 bg-slate-500">
                                                     <div className="flex justify-end gap-3">
                                                         <ClearDataButton onClearData={handleClearData} />
-                                                        {/* <AddDummyDataButton onDataAdd={handleDataChange} /> */}
+                                                        <AddDummyDataButton onDataAdd={handleDataChange} />
                                                     </div>
                                                     {/* Personal Information */}
                                                     <Card className=" bg-slate-100  ">
