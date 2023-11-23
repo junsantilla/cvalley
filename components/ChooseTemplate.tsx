@@ -17,6 +17,13 @@ function ChooseTemplate() {
             imageURL: "/images/templates/template-professional-preview.png",
             category: "Professional",
         },
+        // {
+        //     id: "simple",
+        //     title: "Simple",
+        //     description: "A polished and modern template for professionals.",
+        //     imageURL: "/images/templates/template-professional-preview.png",
+        //     category: "Simple",
+        // },
     ]
 
     // State to keep track of the selected category

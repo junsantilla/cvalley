@@ -22,6 +22,7 @@
     "autoprefixer": "^10.4.15",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
+    "dom-to-image": "^2.6.0",
     "dotenv": "^16.3.1",
     "firebase": "^10.4.0",
     "html2canvas": "^1.4.1",
@@ -29,6 +30,7 @@
     "jspdf": "^2.5.1",
     "lucide-react": "^0.279.0",
     "next": "^13.5.6",
+    "pdfmake": "^0.2.8",
     "postcss": "^8.4.31",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -45,6 +47,9 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@types/dom-to-image": "^2.6.7",
+    "@types/html-docx-js": "^0.3.4",
+    "@types/pdfmake": "^0.2.8",
     "encoding": "^0.1.13"
   }
 }

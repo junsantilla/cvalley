@@ -54,7 +54,7 @@ function page() {
 
             <Builder />
 
-            <div className="flex-col md:flex">
+            {/* <div className="flex-col md:flex">
                 <div className="border-t bg-slate-50">
                     <div className="flex h-16 items-center px-4 mx-4">
                         <p>
@@ -62,7 +62,7 @@ function page() {
                         </p>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </div>
     )
 }

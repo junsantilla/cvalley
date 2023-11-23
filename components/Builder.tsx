@@ -18,6 +18,8 @@ import html2canvas from "html2canvas"
 import jsPDF from "jspdf"
 import AddDummyDataButton from "./AddDummyDataButton"
 import ClearDataButton from "./ClearDataButton"
+// import Simple from "@/templates/Professional/Simple"
+import domtoimage from "dom-to-image"
 
 // Form schema
 const formSchema = z.object({
@@ -234,27 +236,76 @@ function Builder() {
     }
 
     // Generate PDF from HTML
-    const htmlContentId = "element-to-capture"
+    const generatePDFfromHTML = async (htmlContentId: string, outputPath: string) => {
+        const input = document.getElementById(htmlContentId)
+        const scale = 2
 
-    async function generatePDFfromHTML(htmlContentId: string, outputPath: string) {
-        const doc = new jsPDF()
+        if (!input) {
+            console.error(`HTML element with ID ${htmlContentId} not found.`)
+            return
+        }
 
+        const scaledWidth = input.offsetWidth * scale
+        const scaledHeight = input.offsetHeight * scale
+
+        try {
+            const dataUrl = await domtoimage.toPng(input, {
+                width: scaledWidth,
+                height: scaledHeight,
+                style: {
+                    transform: "scale(" + scale + ")",
+                    transformOrigin: "top left",
+                },
+            })
+
+            const pdf = new jsPDF()
+
+            const img = new Image()
+            img.src = dataUrl
+
+            img.onload = () => {
+                const pdfWidth = pdf.internal.pageSize.getWidth()
+                const pdfHeight = (img.height * pdfWidth) / img.width
+                pdf.addImage(dataUrl, "PNG", 0, 0, pdfWidth, pdfHeight)
+                pdf.save(outputPath)
+            }
+        } catch (error) {
+            console.error("Error generating PDF:", error)
+        }
+    }
+
+    // Download image from html
+    const downloadImageFromHTML = async (htmlContentId: string, outputPath: string) => {
         const htmlElement = document.getElementById(htmlContentId)
+
         if (!htmlElement) {
             console.error(`Element with ID '${htmlContentId}' not found.`)
             return
         }
 
-        const canvas = await html2canvas(htmlElement, {
-            scale: 2,
-            logging: true,
-            width: htmlElement.offsetWidth,
-            height: htmlElement.offsetHeight,
-        })
+        // Increase the quality setting for dom-to-image
+        const scale = 1 // You can adjust the scale as needed
+        const options = {
+            quality: 1.0,
+            style: {
+                transform: `scale(${scale})`,
+                transformOrigin: "top left",
+            },
+        }
 
-        const imgData = canvas.toDataURL("image/png")
-        doc.addImage(imgData, "PNG", 0, 0, 210, 0)
-        doc.save(outputPath)
+        try {
+            const dataUrl = await domtoimage.toJpeg(htmlElement, options)
+
+            // Create a link element to trigger the download
+            const link = document.createElement("a")
+            link.href = dataUrl
+            link.download = outputPath
+
+            // Trigger the download
+            link.click()
+        } catch (error) {
+            console.error("Error generating image:", error)
+        }
     }
 
     // Handle data change
@@ -303,7 +354,12 @@ function Builder() {
                                 </TabsTrigger>
                             </TabsList>
 
-                            <Button type="button" onClick={() => generatePDFfromHTML(htmlContentId, "cvalley.pdf")} disabled={!templateId} className="bg-slate-800 hover:bg-slate-950 h-8 mt-1">
+                            {/* <Button type="button" onClick={() => downloadImageFromHTML("element-to-capture", "cvalley")} disabled={!templateId} className="bg-slate-800 hover:bg-slate-950 h-8 mt-1">
+                                <BiSolidFilePdf className="mr-1" />
+                                Downlaod JPEG
+                            </Button> */}
+
+                            <Button type="button" onClick={() => generatePDFfromHTML("element-to-capture", "cvalley")} disabled={!templateId} className="bg-slate-800 hover:bg-slate-950 h-8 mt-1">
                                 <BiSolidFilePdf className="mr-1" />
                                 Downlaod PDF
                             </Button>
@@ -922,6 +978,7 @@ function Builder() {
                                             </Form>
                                         </div>
                                         {templateId === "professional" && <Professional imagePreview={imagePreview} />}
+                                        {/* {templateId === "simple" && <Simple imagePreview={imagePreview} />} */}
                                     </div>
                                 </TabsContent>
                             </div>

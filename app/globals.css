@@ -22,12 +22,6 @@
     overflow: hidden;
 }
 
-.a4 {
-    min-height: 1123px;
-    height: fit-content;
-    width: 794px;
-}
-
 .cvForm {
     height: 1203px;
     min-width: 620px;
