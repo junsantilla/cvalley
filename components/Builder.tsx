@@ -12,14 +12,15 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/
 import { useRouter } from "next/navigation"
 import ChooseTemplate from "./ChooseTemplate"
 import { useSearchParams } from "next/navigation"
-import Professional from "@/templates/Professional/Professional"
 import useLocalStorage from "use-local-storage"
-import html2canvas from "html2canvas"
 import jsPDF from "jspdf"
 import AddDummyDataButton from "./AddDummyDataButton"
 import ClearDataButton from "./ClearDataButton"
-// import Simple from "@/templates/Professional/Simple"
 import domtoimage from "dom-to-image"
+
+// Templates
+import Professional from "@/templates/Professional/Professional"
+import Simple from "@/templates/Simple/Simple"
 
 // Form schema
 const formSchema = z.object({
@@ -378,7 +379,7 @@ function Builder() {
                                                 <form className="cvForm space-y-8 overflow-auto no-scrollbar p-8 bg-slate-500">
                                                     <div className="flex justify-end gap-3">
                                                         <ClearDataButton onClearData={handleClearData} />
-                                                        <AddDummyDataButton onDataAdd={handleDataChange} />
+                                                        {/* <AddDummyDataButton onDataAdd={handleDataChange} /> */}
                                                     </div>
                                                     {/* Personal Information */}
                                                     <Card className=" bg-slate-100  ">
@@ -978,7 +979,7 @@ function Builder() {
                                             </Form>
                                         </div>
                                         {templateId === "professional" && <Professional imagePreview={imagePreview} />}
-                                        {/* {templateId === "simple" && <Simple imagePreview={imagePreview} />} */}
+                                        {templateId === "simple" && <Simple imagePreview={imagePreview} />}
                                     </div>
                                 </TabsContent>
                             </div>
