@@ -7,7 +7,7 @@ function Footer() {
             <p className="text-center md:text-left">
                 <strong>Disclaimer:</strong>{" "}
                 <Link href="/" className="underline">
-                    CValley
+                    CValley.io
                 </Link>{" "}
                 is a free resume-building platform. We do not guarantee job placement or success in your job search.
             </p>
