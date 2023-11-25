@@ -316,6 +316,10 @@ function Builder() {
 
     // Clear dta
     const handleClearData = () => {
+        setImagePreview("")
+        const imageInput = document.getElementById("image") as HTMLInputElement
+        imageInput.value = ""
+
         setData(formSchema.parse(initialData))
 
         for (let i = employmentFields.length - 1; i > 0; i--) {
@@ -399,6 +403,7 @@ function Builder() {
                                                                         <FormLabel>Upload Image</FormLabel>
                                                                         <FormControl>
                                                                             <Input
+                                                                                id="image"
                                                                                 type="file"
                                                                                 onChange={(e) => {
                                                                                     field.onChange(e)
