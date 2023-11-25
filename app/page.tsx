@@ -62,8 +62,8 @@ function page() {
                     </div>
                     <div className="flex gap-3 justify-center">
                         <Link href="/login">
-                            <Button type="button" className="mt-8  uppercase">
-                                <BiRightArrow className="mr-1 text-lg" /> Sign Up Now For Free
+                            <Button variant="outline" type="button" className="mt-8 uppercase text-slate-900">
+                                <BiRightArrow className="mr-1 text-lg " /> Sign Up Now For Free
                             </Button>
                         </Link>
                     </div>
@@ -119,7 +119,7 @@ function page() {
                                 <span className="font-bold">CValley.io - Your Path to Professional Success.</span>{" "}
                             </p>
                             <Link href="/login">
-                                <Button variant="outline" type="button" className="mt-8  uppercase text-slate-900 ">
+                                <Button variant="outline" type="button" className="mt-8 uppercase text-slate-900">
                                     <BiRightArrow className="mr-1 text-lg" /> Sign Up Now
                                 </Button>
                             </Link>
