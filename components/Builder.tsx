@@ -379,7 +379,7 @@ function Builder() {
                                                 <form className="cvForm space-y-8 overflow-auto no-scrollbar p-8 bg-slate-500">
                                                     <div className="flex justify-end gap-3">
                                                         <ClearDataButton onClearData={handleClearData} />
-                                                        {/* <AddDummyDataButton onDataAdd={handleDataChange} /> */}
+                                                        <AddDummyDataButton onDataAdd={handleDataChange} />
                                                     </div>
                                                     {/* Personal Information */}
                                                     <Card className=" bg-slate-100  ">
