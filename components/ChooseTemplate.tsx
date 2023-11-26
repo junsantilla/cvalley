@@ -8,20 +8,27 @@ import { Badge } from "./ui/badge"
 import Image from "next/image"
 
 function ChooseTemplate() {
-    // Sample card data
+    // Card data
     const cardData = [
         {
             id: "professional",
             title: "Professional",
-            description: "A polished and modern template for professionals.",
+            description: "Organized template with left sidebar.",
             imageURL: "/images/templates/template-professional-preview.png",
             category: "Professional",
         },
         {
             id: "simple",
             title: "Simple",
-            description: "A polished and modern template for professionals.",
+            description: "Clean with icon and background for each section title.",
             imageURL: "/images/templates/template-simple-preview.jpg",
+            category: "Simple",
+        },
+        {
+            id: "plain",
+            title: "Plain",
+            description: "Plain and easy to read template.",
+            imageURL: "/images/templates/template-plain-preview.jpg",
             category: "Simple",
         },
     ]
@@ -35,7 +42,7 @@ function ChooseTemplate() {
     return (
         <section className="flex flex-col py-8">
             <div className=" mb-6 flex justify-center">
-                <div className="w-full max-w-screen-xl flex justify-end">
+                <div className="w-full max-w-screen-2xl px-8 flex justify-end">
                     <div className="flex gap-1">
                         <Button variant={selectedCategory !== "All" ? "outline" : undefined} onClick={() => setSelectedCategory("All")}>
                             <BiFoodMenu className="mr-1" />
@@ -56,10 +63,10 @@ function ChooseTemplate() {
                 </div>
             </div>
             <div className="flex justify-center mb-6">
-                <div className="w-full max-w-screen-xl">
+                <div className="w-full max-w-screen-2xl px-8">
                     <div className="grid grid-cols-3 gap-4">
                         {filteredCards.map((card, index) => (
-                            <Card key={index} className="p-2 bg-slate-100 hover:border-slate-300 hover:bg-slate-200 ">
+                            <Card key={index} className="p-2 bg-slate-100 hover:border-slate-300 hover:bg-slate-200 rounded-none">
                                 <div className="flex flex-col h-full">
                                     <CardHeader>
                                         <Image src={card.imageURL} alt={`Preview of ${card.title}`} width={500} height={500} layout="responsive" className="mb-3" />
@@ -70,8 +77,7 @@ function ChooseTemplate() {
                                         </CardTitle>
                                         <CardDescription>{card.description}</CardDescription>
                                     </CardHeader>
-                                    <div className="flex-grow"></div>
-                                    <CardFooter>
+                                    <CardFooter className="-mt-1">
                                         <Link href={`/cv-builder?templateId=${card.id}`} className="w-full">
                                             <Button className="w-full ">
                                                 <BiRightArrow className="mr-1 text-md" /> Select

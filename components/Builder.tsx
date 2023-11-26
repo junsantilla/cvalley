@@ -21,6 +21,7 @@ import domtoimage from "dom-to-image"
 // Templates
 import Professional from "@/templates/Professional/Professional"
 import Simple from "@/templates/Simple/Simple"
+import Plain from "@/templates/Plain/Plain"
 
 // Form schema
 const formSchema = z.object({
@@ -985,6 +986,7 @@ function Builder() {
                                         </div>
                                         {templateId === "professional" && <Professional imagePreview={imagePreview} />}
                                         {templateId === "simple" && <Simple imagePreview={imagePreview} />}
+                                        {templateId === "plain" && <Plain imagePreview={imagePreview} />}
                                     </div>
                                 </TabsContent>
                             </div>
