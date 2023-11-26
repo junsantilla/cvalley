@@ -12,7 +12,7 @@ import Builder from "@/components/Builder"
 
 function page() {
     const { user } = UserAuth()
-    const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
         // Check if localStorage is defined (client-side)
@@ -34,7 +34,8 @@ function page() {
     if (isLoading) {
         return (
             <div className="flex justify-center items-center h-screen ">
-                <DotLoader size={100} aria-label="Loading Spinner" data-testid="loader" />
+                <p className="text-3xl font-semibold">Loading...</p>
+                {/* <DotLoader size={100} aria-label="Loading Spinner" data-testid="loader" /> */}
             </div>
         )
     }

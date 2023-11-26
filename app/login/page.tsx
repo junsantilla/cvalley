@@ -28,7 +28,12 @@ export default function Login() {
 
     // Render loading state while isLoading is true
     if (isLoading) {
-        return <div>Loading...</div>
+        return (
+            <div className="flex justify-center items-center h-screen ">
+                <p className="text-3xl font-semibold">Loading...</p>
+                {/* <DotLoader size={100} aria-label="Loading Spinner" data-testid="loader" /> */}
+            </div>
+        )
     }
 
     return (

@@ -37,8 +37,8 @@ function page() {
                         </ol>
                         <p className="mt-10 font-bold">
                             By using CValley.io, you agree to abide by these terms and our privacy policy. If you have any questions or concerns, please contact us at{" "}
-                            <a className="underline" href="mailto:junsantilla@live.com">
-                                junsantilla@live.com
+                            <a className="underline" href="mailto:support@cvalley.io">
+                                support@cvalley.io
                             </a>
                             .
                         </p>
