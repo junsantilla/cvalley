@@ -1,5 +1,6 @@
 import { BiTrash } from "react-icons/bi"
 import { Button } from "./ui/button"
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
 
 interface ClearDataButtonProps {
     onClearData: () => void
@@ -7,24 +8,32 @@ interface ClearDataButtonProps {
 
 const ClearDataButton: React.FC<ClearDataButtonProps> = ({ onClearData }) => {
     const handleClearData = () => {
-        // Display an alert to confirm data clearing
-        const isConfirmed = window.confirm("Are you sure you want to clear all data?")
+        // Remove all data from local storage
+        localStorage.clear()
 
-        // If the user confirms, proceed with clearing the data
-        if (isConfirmed) {
-            // Remove all data from local storage
-            localStorage.clear()
-
-            // Notify the parent component that data has been cleared
-            onClearData()
-        }
+        // Notify the parent component that data has been cleared
+        onClearData()
     }
 
     return (
-        <Button type="button" onClick={handleClearData}>
-            <BiTrash className="mr-1" />
-            Clear Data
-        </Button>
+        <AlertDialog>
+            <AlertDialogTrigger>
+                <Button type="button">
+                    <BiTrash className="mr-1" />
+                    Clear Data
+                </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+                <AlertDialogHeader>
+                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                    <AlertDialogDescription>This action cannot be undone. This will permanently delete all your data.</AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction onClick={handleClearData}>Continue</AlertDialogAction>
+                </AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog>
     )
 }
 
