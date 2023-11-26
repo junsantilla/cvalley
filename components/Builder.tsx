@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react"
-import { BiSolidFilePdf, BiEdit, BiFileFind, BiMinus, BiPlus, BiUser } from "react-icons/bi"
+import { BiSolidDownload, BiEdit, BiFileFind, BiMinus, BiPlus, BiUser } from "react-icons/bi"
 import { Button } from "./ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -343,31 +343,31 @@ function Builder() {
             <div className="flex justify-center">
                 <div className="w-full">
                     <Tabs value={templateId == null ? "template" : "account"} className="p-0">
-                        <div className="bg-slate-900 text-slate-100 w-full flex justify-between py-3 px-8">
-                            <h2 className="font-bold text-lg flex items-center capitalize">{templateId ?? "Choose Template"}</h2>
+                        <div className="bg-slate-900 text-slate-100 w-full flex justify-between py-3 px-4 md:px-8">
+                            <h2 className="font-bold text-lg hidden md:flex items-center capitalize">{templateId ?? "Choose Template"}</h2>
                             <TabsList className="bg-slate-900 p-0">
                                 <TabsTrigger
                                     value="template"
                                     onClick={() => {
                                         router.push("/cv-builder")
                                     }}
-                                    className="bg-slate-900 "
+                                    className="bg-slate-900 text-xs md:text-sm"
                                 >
-                                    <BiFileFind className="inline-block mr-2 " /> 1. Choose Template
+                                    <BiFileFind className="inline-block mr-2" /> 1. Choose Template
                                 </TabsTrigger>
-                                <TabsTrigger value="account" disabled={!templateId}>
-                                    <BiUser className="inline-block mr-2 " /> 2. Enter Information
+                                <TabsTrigger value="account" disabled={!templateId} className="text-xs md:text-sm">
+                                    <BiUser className="inline-block mr-2" /> 2. Enter Information
                                 </TabsTrigger>
                             </TabsList>
 
                             {/* <Button type="button" onClick={() => downloadImageFromHTML("element-to-capture", "cvalley")} disabled={!templateId} className="bg-slate-800 hover:bg-slate-950 h-8 mt-1">
-                                <BiSolidFilePdf className="mr-1" />
+                                <BiSolidDownload className="mr-1" />
                                 Downlaod JPEG
                             </Button> */}
 
-                            <Button type="button" onClick={() => generatePDFfromHTML("element-to-capture", "cvalley")} disabled={!templateId} className="bg-slate-800 hover:bg-slate-950 h-8 mt-1">
-                                <BiSolidFilePdf className="mr-1" />
-                                Downlaod PDF
+                            <Button type="button" onClick={() => generatePDFfromHTML("element-to-capture", "cvalley")} disabled={!templateId} className="bg-slate-800 hover:bg-slate-950 h-8 mt-1 flex text-xs md:text-sm">
+                                <BiSolidDownload className="md:text-md mr-1" />
+                                <span className="hidden md:inline mr-1">Download </span> PDF
                             </Button>
                         </div>
 

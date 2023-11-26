@@ -42,9 +42,9 @@ function page() {
 
     return (
         <div className=" min-w-fit">
-            <div className="hidden flex-col md:flex min-w-max">
+            <div className="flex-col md:flex min-w-max">
                 <div className=" bg-slate-950 text-slate-100">
-                    <div className="flex h-16 items-center px-4 mx-4">
+                    <div className="flex h-16 items-center px-0 md:px-4 mx-4">
                         <MainNav />
                         <div className="ml-auto flex items-center space-x-4">
                             <UserNav />
