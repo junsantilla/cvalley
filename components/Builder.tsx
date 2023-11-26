@@ -816,10 +816,10 @@ function Builder() {
                                                                                 name={`education[${index}].startYear`}
                                                                                 render={({ field }) => (
                                                                                     <FormItem>
-                                                                                        <FormLabel>Start Year</FormLabel>
+                                                                                        <FormLabel>Start Date</FormLabel>
                                                                                         <FormControl>
                                                                                             <Input
-                                                                                                placeholder="Start Year"
+                                                                                                placeholder="Start Date"
                                                                                                 {...field}
                                                                                                 value={data.education?.[index]?.startYear || ""}
                                                                                                 onChange={(e) => {
@@ -837,10 +837,10 @@ function Builder() {
                                                                                 name={`education[${index}].endYear`}
                                                                                 render={({ field }) => (
                                                                                     <FormItem>
-                                                                                        <FormLabel>End Year</FormLabel>
+                                                                                        <FormLabel>End Date</FormLabel>
                                                                                         <FormControl>
                                                                                             <Input
-                                                                                                placeholder="End Year"
+                                                                                                placeholder="End Date"
                                                                                                 {...field}
                                                                                                 value={data.education?.[index]?.endYear || ""}
                                                                                                 onChange={(e) => {
