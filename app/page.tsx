@@ -51,21 +51,23 @@ function page() {
     return (
         <Layout>
             <main>
-                <section className="hero text-slate-200 w-full text-center py-20 md:py-60 ">
-                    <p className="text-3xl md:text-5xl mb-6">
-                        👋 Welcome to <span className="font-bold">CValley.io</span>
-                    </p>
-                    <div className="text-xl md:text-2xl flex flex-col">
-                        <p className="max-w-screen-2xl self-center px-10 md:px-28">
-                            Our platform is designed to make the resume-building process easy, efficient, and free. Whether you're a recent graduate entering the job market or an experienced professional looking to update your CV, CValley.io has got you covered.
+                <section className="hero flex h-full items-center text-slate-200 w-full text-center">
+                    <div className="">
+                        <p className="text-3xl md:text-5xl mb-6">
+                            👋 Welcome to <span className="font-bold">CValley.io</span>
                         </p>
-                    </div>
-                    <div className="flex gap-3 justify-center">
-                        <Link href="/login">
-                            <Button variant="outline" type="button" className="mt-8 uppercase text-slate-900">
-                                <BiRightArrow className="mr-1 text-lg " /> Sign Up Now For Free
-                            </Button>
-                        </Link>
+                        <div className="text-xl md:text-2xl flex flex-col">
+                            <p className="max-w-screen-2xl self-center px-10 md:px-28">
+                                Our platform is designed to make the resume-building process easy, efficient, and free. Whether you're a recent graduate entering the job market or an experienced professional looking to update your CV, CValley.io has got you covered.
+                            </p>
+                        </div>
+                        <div className="flex gap-3 justify-center">
+                            <Link href="/login">
+                                <Button variant="outline" type="button" className="mt-8 uppercase text-slate-900">
+                                    <BiRightArrow className="mr-1 text-lg " /> Sign Up Now For Free
+                                </Button>
+                            </Link>
+                        </div>
                     </div>
                 </section>
 
