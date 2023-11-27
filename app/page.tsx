@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { BiRightArrow } from "react-icons/bi"
+import Carousel from "@/components/Carousel"
 
 export const metadata: Metadata = {
     title: "CValley - Build Your Resume for Free",
@@ -91,11 +92,11 @@ function page() {
                 </section>
 
                 {/*Why Choose CValley.io */}
-                <section className="w-full py-24 bg-slate-200">
+                <section className="why w-full py-24 bg-slate-200">
                     <div className="flex justify-center">
                         <div className="px-10 md:px-20 max-w-screen-lg">
                             <h2 className="text-2xl md:text-4xl text-center mb-8">
-                                🤝 Why <span className="font-bold">Choose CValley.io</span>
+                                🏆 Why <span className="font-bold">Choose CValley.io</span>
                             </h2>
                             <div className="grid md:grid-cols-2 gap-4">
                                 {whyChoose.map((item, index) => (
@@ -108,6 +109,8 @@ function page() {
                         </div>
                     </div>
                 </section>
+
+                <Carousel />
 
                 {/* Get Started Today! */}
                 <section className="sign w-full py-24 bg-slate-900 text-white">
