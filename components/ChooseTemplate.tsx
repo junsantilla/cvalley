@@ -6,38 +6,14 @@ import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "./ui/c
 import { BiAward, BiBriefcaseAlt2, BiBrush, BiFileFind, BiFoodMenu, BiRightArrow, BiStar } from "react-icons/bi"
 import { Badge } from "./ui/badge"
 import Image from "next/image"
+import templateData from "../data/templateData"
 
 function ChooseTemplate() {
-    // Card data
-    const cardData = [
-        {
-            id: "professional",
-            title: "Professional",
-            description: "Organized template with left sidebar.",
-            imageURL: "/images/templates/template-professional-preview.png",
-            category: "Professional",
-        },
-        {
-            id: "simple",
-            title: "Simple",
-            description: "Clean with icon and background for each section title.",
-            imageURL: "/images/templates/template-simple-preview.jpg",
-            category: "Simple",
-        },
-        {
-            id: "plain",
-            title: "Plain",
-            description: "Plain and easy to read template.",
-            imageURL: "/images/templates/template-plain-preview.jpg",
-            category: "Simple",
-        },
-    ]
-
     // State to keep track of the selected category
     const [selectedCategory, setSelectedCategory] = useState("All")
 
     // Function to filter cards based on the selected category
-    const filteredCards = selectedCategory === "All" ? cardData : cardData.filter((card) => card.category === selectedCategory)
+    const filteredCards = selectedCategory === "All" ? templateData : templateData.filter((card) => card.category === selectedCategory)
 
     return (
         <section className="flex flex-col py-8">
