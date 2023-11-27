@@ -17,6 +17,7 @@ import jsPDF from "jspdf"
 import AddDummyDataButton from "./AddDummyDataButton"
 import ClearDataButton from "./ClearDataButton"
 import domtoimage from "dom-to-image"
+import { ScrollArea } from "@/components/ui/scroll-area"
 
 // Templates
 import Professional from "@/templates/Professional/Professional"
@@ -377,11 +378,11 @@ function Builder() {
                                     <ChooseTemplate />
                                 </TabsContent>
 
-                                <TabsContent value="account">
-                                    <div className="flex -mt-2">
-                                        <div className="flex flex-col ">
+                                <TabsContent value="account" className="flex mt-0">
+                                    <div className="flex flex-col cvForm">
+                                        <ScrollArea className="bg-slate-500">
                                             <Form {...form}>
-                                                <form className="cvForm space-y-8 overflow-auto no-scrollbar p-8 bg-slate-500">
+                                                <form className="space-y-8 p-8">
                                                     <div className="flex justify-end gap-3">
                                                         <ClearDataButton onClearData={handleClearData} />
                                                         <AddDummyDataButton onDataAdd={handleDataChange} />
@@ -983,11 +984,11 @@ function Builder() {
                                                     {/* <Button type="submit">Submit</Button> */}
                                                 </form>
                                             </Form>
-                                        </div>
-                                        {templateId === "professional" && <Professional imagePreview={imagePreview} />}
-                                        {templateId === "simple" && <Simple imagePreview={imagePreview} />}
-                                        {templateId === "plain" && <Plain imagePreview={imagePreview} />}
+                                        </ScrollArea>
                                     </div>
+                                    {templateId === "professional" && <Professional imagePreview={imagePreview} />}
+                                    {templateId === "simple" && <Simple imagePreview={imagePreview} />}
+                                    {templateId === "plain" && <Plain imagePreview={imagePreview} />}
                                 </TabsContent>
                             </div>
                         </div>
