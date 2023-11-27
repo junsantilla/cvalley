@@ -130,9 +130,9 @@ const Professional: React.FC<ProfessionalProps> = ({ imagePreview }) => {
                                 <h2 className="font-extrabold text-lg mb-4">
                                     <span>█ </span>Employment History:
                                 </h2>
-                                <ul>
+                                <ul className="flex flex-col gap-3">
                                     {data.employment.map((job: any, index: number) => (
-                                        <li key={index} className="mb-4">
+                                        <li key={index}>
                                             <div className="font-bold">
                                                 <p className="text-lg">{job.jobTitle}</p>
                                                 <p className="text-xs">
@@ -155,10 +155,10 @@ const Professional: React.FC<ProfessionalProps> = ({ imagePreview }) => {
                                 <h2 className="font-extrabold text-lg mb-4">
                                     <span>█ </span>Education:
                                 </h2>
-                                <ul>
+                                <ul className="flex flex-col gap-3">
                                     {data.education.map((school: any, index: number) => (
                                         <li key={index}>
-                                            <ul className="mb-4">
+                                            <ul>
                                                 <li key={index}>
                                                     <div className="font-bold">
                                                         <p className="text-lg">{school.schoolName}</p>
@@ -167,7 +167,7 @@ const Professional: React.FC<ProfessionalProps> = ({ imagePreview }) => {
                                                         </p>
                                                     </div>
 
-                                                    <p className="font-xs text-xs py-1 spa tracking-widest  text-slate-500 uppercase font-semibold">
+                                                    <p className="text-xs py-1 spa text-slate-600 uppercase font-bold">
                                                         {school.startYear} - {school.endYear}
                                                     </p>
                                                     <p>{school.description}</p>
