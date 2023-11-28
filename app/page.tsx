@@ -52,8 +52,8 @@ function page() {
     return (
         <Layout>
             <main>
-                <section className="hero flex h-full items-center text-slate-200 w-full text-center">
-                    <div className="">
+                <section className="hero flex h-full justify-center items-center text-slate-200 w-full text-center">
+                    <div>
                         <p className="text-3xl md:text-5xl mb-6">
                             👋 Welcome to <span className="font-bold">CValley.io</span>
                         </p>
