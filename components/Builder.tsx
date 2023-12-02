@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react"
-import { BiSolidDownload, BiEdit, BiFileFind, BiMinus, BiPlus, BiUser } from "react-icons/bi"
+import { BiSolidDownload, BiEdit, BiFileFind, BiMinus, BiPlus, BiUser, BiSolidBriefcase, BiSolidUser } from "react-icons/bi"
 import { Button } from "./ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -23,6 +23,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import Professional from "@/templates/Professional/Professional"
 import Simple from "@/templates/Simple/Simple"
 import Plain from "@/templates/Plain/Plain"
+import { FaGraduationCap, FaLaptopCode } from "react-icons/fa6"
 
 // Form schema
 const formSchema = z.object({
@@ -391,7 +392,7 @@ function Builder() {
                                                     <Card className=" bg-slate-100  ">
                                                         <CardHeader>
                                                             <CardTitle className="text-lg font-bold">
-                                                                <BiUser className="text-xl mb-1 mr-2 inline" />
+                                                                <BiSolidUser className="text-xl mb-1 mr-2 inline" />
                                                                 Personal Information
                                                             </CardTitle>
                                                             <CardDescription>Fill in all required details below</CardDescription>
@@ -557,7 +558,7 @@ function Builder() {
                                                     <Card className="bg-slate-100 ">
                                                         <CardHeader>
                                                             <CardTitle className="text-lg font-bold">
-                                                                <BiEdit className="text-xl mb-1 mr-2 inline" />
+                                                                <BiSolidBriefcase className="text-xl mb-1 mr-2 inline" />
                                                                 Employment History
                                                             </CardTitle>
                                                             <CardDescription>Fill in all required details below</CardDescription>
@@ -736,7 +737,7 @@ function Builder() {
                                                     <Card className=" bg-slate-100  ">
                                                         <CardHeader>
                                                             <CardTitle className="text-lg font-bold">
-                                                                <BiEdit className="text-xl mb-1 mr-2 inline" />
+                                                                <FaGraduationCap className="text-xl mb-1 mr-2 inline" />
                                                                 Educations
                                                             </CardTitle>
                                                             <CardDescription>Fill in all required details below</CardDescription>
@@ -918,7 +919,7 @@ function Builder() {
                                                     <Card className="bg-slate-100 ">
                                                         <CardHeader>
                                                             <CardTitle className="text-lg font-bold">
-                                                                <BiEdit className="text-xl mb-1 mr-2 inline" />
+                                                                <FaLaptopCode className="text-xl mb-1 mr-2 inline" />
                                                                 Skills
                                                             </CardTitle>
                                                             <CardDescription>Add your skills below</CardDescription>
