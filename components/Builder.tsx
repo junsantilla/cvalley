@@ -18,12 +18,13 @@ import AddDummyDataButton from "./AddDummyDataButton"
 import ClearDataButton from "./ClearDataButton"
 import domtoimage from "dom-to-image"
 import { ScrollArea } from "@/components/ui/scroll-area"
+import { FaGraduationCap, FaLaptopCode } from "react-icons/fa6"
 
 // Templates
 import Professional from "@/templates/Professional/Professional"
 import Simple from "@/templates/Simple/Simple"
 import Plain from "@/templates/Plain/Plain"
-import { FaGraduationCap, FaLaptopCode } from "react-icons/fa6"
+import Web from "@/templates/Web/Web"
 
 // Form schema
 const formSchema = z.object({
@@ -990,6 +991,7 @@ function Builder() {
                                     {templateId === "professional" && <Professional imagePreview={imagePreview} />}
                                     {templateId === "simple" && <Simple imagePreview={imagePreview} />}
                                     {templateId === "plain" && <Plain imagePreview={imagePreview} />}
+                                    {templateId === "web" && <Web imagePreview={imagePreview} />}
                                 </TabsContent>
                             </div>
                         </div>
