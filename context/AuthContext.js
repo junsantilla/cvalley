@@ -16,6 +16,7 @@ export const AuthContextProvider = ({ children }) => {
 
     const logOut = () => {
         signOut(auth)
+        localStorage.clear()
         router.push("/login")
     }
 

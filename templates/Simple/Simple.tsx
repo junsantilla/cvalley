@@ -52,6 +52,7 @@ const Simple: React.FC<SimpleProps> = ({ imagePreview }) => {
             const divHeight: number = parseFloat(getComputedStyle(a4Div).height)
 
             if (divHeight - 20 > containerHeight) {
+                console.log("Data before overflow:", data)
                 alert("Warning: Your data may overflow. Our app can render 1 page only at the moment.")
             }
         }
