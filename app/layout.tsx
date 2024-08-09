@@ -9,9 +9,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     return (
         <html lang="en">
             <AuthContextProvider>
-                <head>
-                    <meta name="google-adsense-account" content="ca-pub-2082156693643345">    
-                </head>
+            <meta name="google-adsense-account" content="ca-pub-2082156693643345">    
+              
                 <body>
                     {children}
 
